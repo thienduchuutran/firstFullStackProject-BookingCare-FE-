@@ -1,0 +1,68 @@
+before the app runs into render function, it will stop by ocnstructor
+
+class Login extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+if Login is passed a prop from somewhere else, we can use it here
+
+props can be number, var, object, etc
+but state always is an object
+
+
+if 
+class Login extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {          
+            username: 'hoidanit',
+            password: 'duc', 
+        }
+    }
+
+anything in the this.state is the first value in the input (placeholder)
+!!! but here the value in the input will be fixed, we can't change -> not practical
+
+->> To be practical where we can change the input and the state can keep track with real-time change, we use
+    attribute onChange in the input
+ex:
+                            <input 
+                                type='text' 
+                                className='form-control' 
+                                placeholder='Enter your username'
+                                value={this.state.username}
+                                onChange={(event) => this.handleOnChangeInput(event)}
+                            ></input>
+
+where the function attribute onChange will call a handling function named handleOnChangeInput
+we code handleOnChangeInput function right above the render
+
+=====> with all that, the app got the change, but we still need to re-render it on UI every time there's a change (update state variable)
+=> add this.setState({}) inside the handling function
+
+handleOnChangeInput = (event) => {
+    this.setState({
+        username: event.target.value
+    })
+    console.log(event.target.value)
+}
+
+
+
+Now we wanna get the values on the inputs (username and password) after we click login button
+the action of clicking on the login button called onClick event
+ex:
+                            <button 
+                                className='btn-login'
+                                onClick={(event)=>this.handleLogin(event)}
+                            >
+                                Login
+                            </button>
+
+
+
+NOW TO CALL API FROM FE FROM ONLICK FUNCTION:
+(we write APIs in file service => emergence of userService.js in services folder)
+
+!! we have a package to send request from client to server called axios
