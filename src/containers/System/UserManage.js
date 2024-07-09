@@ -33,6 +33,7 @@ class UserManage extends Component {
 
     render() {
         console.log(this.state)
+        let arrUsers = this.state.arrUsers
         return (
             <div className="users-container">
                 <div className='title text-center'>
@@ -47,13 +48,24 @@ class UserManage extends Component {
                         <th>Address</th>
                         <th>Actions</th>
                     </tr>
-                    <tr>
-                        <td>Alfreds Futterkiste</td>
-                        <td>Maria Anders</td>
-                        <td>Germany</td>
-                        <td>Germany</td>
-                        <td>Germany</td>
-                    </tr>
+                    
+                        {arrUsers && arrUsers.map((item, index) => {
+                            console.log('check' , item, index)
+                            return (
+                                <tr>
+                                    <td>{item.email}</td>
+                                    <td>{item.firstName}</td>
+                                    <td>{item.lastName}</td>
+                                    <td>{item.address}</td>
+                                    <td>
+                                        <button className='btn-edit'><i className="fas fa-user-edit"></i></button>
+                                        <button className='btn-delete'><i className="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+
+                    
                    
                     </table>
                 </div>
