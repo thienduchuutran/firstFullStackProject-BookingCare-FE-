@@ -66,3 +66,15 @@ NOW TO CALL API FROM FE FROM ONLICK FUNCTION:
 (we write APIs in file service => emergence of userService.js in services folder)
 
 !! we have a package to send request from client to server called axios
+
+
+
+NOW to actually login after clicking the submit button on the login form:
+--> user Redux
+
+
+In react, right after creating a class, we gonna create a constructor. In constructor we have this.state = {}... The 'this' is the class it lies within
+
+NOTE: the this.setState is asynchronous function, so a callback in the setState function would force
+
+the render function will be executed twice. The first time is right when we load the page. The second time is after anytime we setState

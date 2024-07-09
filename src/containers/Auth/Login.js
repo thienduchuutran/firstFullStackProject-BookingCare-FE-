@@ -38,13 +38,13 @@ handleLogin = async (event) => {
     })
     try{
         let data = await handleLoginApi(this.state.username, this.state.password)
-        if(data && data.errCode != 0){
+        if(data && data.errCode !== 0){
             this.setState({
                 errMessage: data.message
             })
         }
-        if(data && data.errCode == 0){
-            //todo
+        if(data && data.errCode === 0){
+            this.props.userLoginSuccess(data.user)
             console.log('login succeed')
         }
     }catch(e){
@@ -138,8 +138,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+        // userLoginFail: () => dispatch(actions.adminLoginFail()),
+        userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo))
     };
 };
 
