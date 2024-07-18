@@ -67,6 +67,7 @@ class UserManage extends Component {
                 </div>
                 <div className='users-table mt-3 mx-1'>
                     <table id="customers">
+                    <tbody>
                     <tr>
                         <th>Email</th>
                         <th>First Name</th>
@@ -89,7 +90,9 @@ class UserManage extends Component {
                                     </td>
                                 </tr>
                             )
-                        })}
+                        })
+                        }
+                    </tbody>
 
                     
                    
