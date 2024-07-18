@@ -3,12 +3,14 @@ import { FormattedMessage } from 'react-intl';
 import './UserManage.scss'
 import { connect } from 'react-redux';
 import { getAllUsers } from '../../services/userService';
+import ModalUser from './ModalUser';
 class UserManage extends Component {
 
     constructor(props) {
         super(props)
         this.state = {  // this here is the class UserManage
-            arrUsers: []
+            arrUsers: [],
+            isOpenModalUser: false,
         }
     }
 
@@ -18,10 +20,22 @@ class UserManage extends Component {
             this.setState({
                 arrUsers: response.users
             })
-            console.log('check state ', this.state.arrUsers)
+            // console.log('check state ', this.state.arrUsers)
             
         }
-        console.log('users from nodejs: ', response)
+        // console.log('users from nodejs: ', response)
+    }
+
+    handleAddnewUser = ()  => {
+        this.setState({
+            isOpenModalUser: true
+        })
+    }
+
+    toggleModalUser = () => {
+        this.setState({
+            isOpenModalUser: ! this.state.isOpenModalUser,
+        })
     }
     /** Life cycle
      * Run component:
@@ -32,12 +46,24 @@ class UserManage extends Component {
      */
 
     render() {
-        console.log(this.state)
+        console.log(this.state.isOpenModalUser)
         let arrUsers = this.state.arrUsers
         return (
             <div className="users-container">
+                <ModalUser
+                    isOpen = {this.state.isOpenModalUser}
+                    toggleFromParent = {this.toggleModalUser}
+                />
                 <div className='title text-center'>
                     Manage users
+                </div>
+                <div className='mx-1'>
+                    <button className='btn btn-primary px-3'
+                            onClick={()=>this.handleAddnewUser()}
+                    >
+                        
+                        <i class="fas fa-plus"></i>  Add new user
+                    </button>
                 </div>
                 <div className='users-table mt-3 mx-1'>
                     <table id="customers">
@@ -50,7 +76,7 @@ class UserManage extends Component {
                     </tr>
                     
                         {arrUsers && arrUsers.map((item, index) => {
-                            console.log('check' , item, index)
+                            
                             return (
                                 <tr>
                                     <td>{item.email}</td>

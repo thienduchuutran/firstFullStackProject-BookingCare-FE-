@@ -78,3 +78,21 @@ In react, right after creating a class, we gonna create a constructor. In constr
 NOTE: the this.setState is asynchronous function, so a callback in the setState function would force
 
 the render function will be executed twice. The first time is right when we load the page. The second time is after anytime we setState
+
+
+
+IN ORDER TO PASS A PROP FROM PARENT TO CHILD:
+In the parent file, define the function, use the function in any element with a customized attribute name.
+Ex:
+UserManage.js is a parent file and ModalUser.js is a child file.
+In UserManage.js, we define toggleModalUser function then put it in ModalUser element:
+                <ModalUser
+                    isOpen = {this.state.isOpenModalUser}
+                    toggleFromParent = {this.toggleModalUser}
+                />
+
+Then in child file, we can access the function through prop as this.props.toggleFromParent
+
+
+IN ORDER TO GET ANY DATA CHANGES FROM ANY FORMS IN THE FE:
+=> use onChange
