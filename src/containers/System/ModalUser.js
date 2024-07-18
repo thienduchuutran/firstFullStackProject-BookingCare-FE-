@@ -54,7 +54,7 @@ class ModalUser extends Component {
     }
 
     checkValidateInput = () => {
-      let isValid = true
+      let isValid = false
       let arrInput = ['email', 'password', 'firstName', 'lastName', 'address']
       for (let i = 0; i <arrInput.length; i++){
         if(!this.state[arrInput[i]]){ //no input
