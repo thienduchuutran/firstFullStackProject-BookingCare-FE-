@@ -53,13 +53,29 @@ class ModalUser extends Component {
       // console.log(event.target.value, id)
     }
 
+    checkValidateInput = () => {
+      let isValid = true
+      let arrInput = ['email', 'password', 'firstName', 'lastName', 'address']
+      for (let i = 0; i <arrInput.length; i++){
+        if(!this.state[arrInput[i]]){ //no input
+          isValid = false
+          alert('missing param: '+arrInput[i])
+          break
+        }
+      }
+      return true
+    }
 
     handleAddNewUser = () => {
-      console.log('data modal: ', this.state)
+      let isValid = this.checkValidateInput()
+      if(isValid === true){
+        //call API create modal
+        this.props.createNewUser(this.state)
+
+      }
     }
 
     render() {
-        console.log('check child props', this.props)
         return (
         <Modal 
         isOpen={this.props.isOpen} toggle={()=>this.props.isOpen} className={'modal-user-container'} size='lg' centered>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import './UserManage.scss'
 import { connect } from 'react-redux';
-import { getAllUsers } from '../../services/userService';
+import { getAllUsers, createNewUserService} from '../../services/userService';
 import ModalUser from './ModalUser';
 class UserManage extends Component {
 
@@ -15,15 +15,18 @@ class UserManage extends Component {
     }
 
     async componentDidMount() {
+        await this.getAllUsersFromReact()
+        // console.log('users from nodejs: ', response)
+    }
+
+    getAllUsersFromReact = async () => {
         let response = await getAllUsers('ALL')
         if(response && response.errCode === 0){
             this.setState({
                 arrUsers: response.users
             })
             // console.log('check state ', this.state.arrUsers)
-            
         }
-        // console.log('users from nodejs: ', response)
     }
 
     handleAddnewUser = ()  => {
@@ -45,14 +48,29 @@ class UserManage extends Component {
      * 
      */
 
+    createNewUser = async(data) =>{
+        try{
+            let response = await createNewUserService(data)
+            if(response && response.errCode !== 0){
+                alert(response.errMessage)
+            }else{
+                await this.getAllUsersFromReact()
+            }
+            console.log('response create user', response)
+        }catch(e){
+            console.log(e)
+        }
+        console.log('data from child' ,data)
+    }
+
     render() {
-        console.log(this.state.isOpenModalUser)
         let arrUsers = this.state.arrUsers
         return (
             <div className="users-container">
                 <ModalUser
                     isOpen = {this.state.isOpenModalUser}
                     toggleFromParent = {this.toggleModalUser}
+                    createNewUser={this.createNewUser}
                 />
                 <div className='title text-center'>
                     Manage users

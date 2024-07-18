@@ -96,3 +96,52 @@ Then in child file, we can access the function through prop as this.props.toggle
 
 IN ORDER TO GET ANY DATA CHANGES FROM ANY FORMS IN THE FE:
 => use onChange
+
+
+
+SO WE WANNA UPDATE THE CHILD (CREATING A NEW USER IN MODAL) AND HAVE THE PARENT UPDATED (THE NEW USER AUTOMATICALLY SHOWS UP ON THE USERMANAGE WITHOUT RELOADING THE PAGE):
+--> We create the handling function in the parent file
+=> create createNewUser in the parent file
+
+To pass a function from parent file to child file:
++ define the function in parent file
++ pass the function into the child element in the parent file
+ex:
+                <ModalUser
+                    isOpen = {this.state.isOpenModalUser}
+                    toggleFromParent = {this.toggleModalUser}
+                    createNewUser={this.createNewUser}
+                />
+
+Next in the child file (ModalUser.js)
+in whatever function that is provoked, call the function that was passed from parent file
+ex:
+    handleAddNewUser = () => {
+      let isValid = this.checkValidateInput()
+      if(isValid === true){
+        //call API create modal
+        this.props.createNewUser()
+        console.log('data modal: ', this.state)
+      }
+    }
+
+
+
+HOW TO PASS DATA FROM CHILD FILE TO PARENT FILE:
++ put a param in the function called in child file
++ in parent file, place a param to receive the data passed
+ex:
+in child file (ModalUser.js):
+    handleAddNewUser = () => {
+      let isValid = this.checkValidateInput()
+      if(isValid === true){
+        //call API create modal
+        this.props.createNewUser(this.state)
+      }
+    }
+
+in parent file (UserManage.js):
+    createNewUser = (data) =>{
+        alert('call me')
+        console.log('data from child' ,data)
+    }
