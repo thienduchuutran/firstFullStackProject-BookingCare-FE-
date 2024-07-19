@@ -150,3 +150,15 @@ in parent file (UserManage.js):
 IN ORDER TO delete a user, when we click on the delete button, we have to get the exact user
 Note that each user rendered and each delete button are in a for loop => the index will be the key
 *** Pass the key as a param into the function that handles the delete to pass the data of the exact user
+
+How to use emitter:
+In parent file, use emitter.emit()
+ex:
+    emitter.emit('EVENT_CLEAR_MODAL_DATA', {'id': 'your id'})
+In child file, use emitter.on()
+ex:
+    listenToEmitter(){
+      emitter.on('EVENT_CLEAR_MODAL_DATA', data => {
+        console.log('listen emitter from parent: ', data)
+      })
+    }
