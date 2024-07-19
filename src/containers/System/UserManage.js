@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import './UserManage.scss'
 import { connect } from 'react-redux';
-import { getAllUsers, createNewUserService, deleteUserService} from '../../services/userService';
+import { getAllUsers, createNewUserService, deleteUserService, editUserService} from '../../services/userService';
 import ModalUser from './ModalUser';
 import ModalEditUser from './ModalEditUser';
 import {emitter} from '../../utils/emitter'
@@ -100,8 +100,21 @@ class UserManage extends Component {
         })
     }
 
-    doEditUser = (user) => {
-        console.log('click save user: ', user)
+    doEditUser = async (user) => {
+        try{
+            let res = await editUserService(user)
+            if(res && res.errCode === 0){
+                this.setState({
+                    isOpenModalEditUser: false
+                })
+                await this.getAllUsersFromReact()
+            }else{
+                alert(res.errCode)
+            }
+        }catch(e){
+            console.log(e)
+        }
+
     }
 
     render() {
