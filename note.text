@@ -162,3 +162,11 @@ ex:
         console.log('listen emitter from parent: ', data)
       })
     }
+
+
+
+To address the issue when the page is rendered but data now showing up on time:
+---> Use componentDidUpdate
+
+Or 
+
