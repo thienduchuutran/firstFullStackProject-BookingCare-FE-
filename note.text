@@ -168,5 +168,6 @@ ex:
 To address the issue when the page is rendered but data now showing up on time:
 ---> Use componentDidUpdate
 
-Or 
+reduxStore is to store redux's data
+persistor is to store a variable of redux like a variable of local storage
 

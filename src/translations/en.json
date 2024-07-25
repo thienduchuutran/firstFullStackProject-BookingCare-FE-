@@ -16,9 +16,10 @@
         "title2": "COMPREHENSIVE HEALTH CARE",
         "child1": "Specialized examination",
         "child2": "Remote examination",
-        "child3": "Medical testing",
-        "child4": "Mental healthcare",
-        "child5": "Dental examination"
+        "child3": "Comprehensive examination",
+        "child4": "Medical testing",
+        "child5": "Mental healthcare",
+        "child6": "Dental examination"
     },
     "common": {
         "add": "Add",
