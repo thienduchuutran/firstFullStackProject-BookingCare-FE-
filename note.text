@@ -171,3 +171,15 @@ To address the issue when the page is rendered but data now showing up on time:
 reduxStore is to store redux's data
 persistor is to store a variable of redux like a variable of local storage
 
+
+To add scrolling function:
+import CustomScrollbars.js in file App
+
+                            <CustomScrollbars style={{height: '100vh', width: '100%'}}>
+                                <Switch>
+                                    <Route path={path.HOME} exact component={(Home)} />
+                                    <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
+                                    <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
+                                    <Route path={path.HOMEPAGE} component={HomePage} />
+                                </Switch>
+                            </CustomScrollbars>
