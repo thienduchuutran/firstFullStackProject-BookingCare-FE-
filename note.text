@@ -183,3 +183,26 @@ import CustomScrollbars.js in file App
                                     <Route path={path.HOMEPAGE} component={HomePage} />
                                 </Switch>
                             </CustomScrollbars>
+
+From now on we start dynamically loading data from database to show on UI, no hardcoding anymore
+
+
+Anything in here are props from Redux   
+const mapStateToProps = state => {          
+    return {
+        isLoggedIn: state.user.isLoggedIn,
+        language: state.app.language,
+    };
+};  
+
+Redux persist to save a variable for the whole app
+!!!!!! HOW TO SAVE LANGUAGE WHEN RELOAD PAGE !!!!!!!!!
+
+In rootReducer.js:
+in const userPersistConfig = {
+    ...persistCommonConfig,
+    key: 'user',
+    whitelist: ['isLoggedIn', 'userInfo', 'language']
+};
+
+add 'language' in whitelist
