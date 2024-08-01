@@ -198,6 +198,12 @@ const mapStateToProps = state => {
 Redux persist to save a variable for the whole app
 !!!!!! HOW TO SAVE LANGUAGE WHEN RELOAD PAGE !!!!!!!!!
 
+In redux.js, we imported {persistStore} from 'redux-persist', a redux library
+
+Reason why redux over localStorage is because we can still update variables in redux if we want
+**React and redux communicate via mapStateToProps and mapDispatchToProps with function "connect" wrap the 2 (which means we need to import {connect} from 'react-redux)
+
+When we first run the app, we need to call an action to set the language for the app
 In rootReducer.js:
 in const userPersistConfig = {
     ...persistCommonConfig,
