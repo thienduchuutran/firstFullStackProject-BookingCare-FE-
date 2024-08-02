@@ -18,7 +18,7 @@ class HomeHeader extends Component {
 
     render() {
         let language = this.props.language //this this.props is from redux, not from parent to child
-        console.log(language)
+        console.log('check user info: ', this.props.userInfo)
 
         return (
             <React.Fragment>
@@ -155,6 +155,7 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        userInfo: state.app.userInfo
     };
 };
 
