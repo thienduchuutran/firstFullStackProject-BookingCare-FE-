@@ -19,7 +19,6 @@ export const fetchGenderStart =  () => {
             console.log('fetchGenderStart error', e)
         }
     }
-
 }
 
 export const fetchGenderSuccess = (genderData) => ({

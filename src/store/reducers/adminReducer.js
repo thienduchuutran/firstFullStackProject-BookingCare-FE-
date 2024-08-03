@@ -14,10 +14,12 @@ const adminReducer = (state = initialState, action) => {
                 ...state,
             }
         case actionTypes.FETCH_GENDER_SUCCESS:
-            console.log('fire gender success: ', action)
+            let copyState = {...state}              //this is how we assign data into redux
+            copyState.genders = action.data
+            console.log('fire gender success: ', copyState)
 
             return {
-                ...state,
+                ...copyState,
             }
         case actionTypes.FETCH_GENDER_FAILED:
             console.log('fire gender fail: ', action)

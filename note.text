@@ -302,3 +302,31 @@ When it fire an action, that's when we call API
 
 
 => in action file, import the function that retrieves data from database (like import { getAllCodeService } from '../../services/userService';)
+do sth like:
+export const fetchGenderStart =  () => {
+    return async(dispatch, getState) => {
+        try{
+            let res = await getAllCodeService("GENDER")
+            if (res && res.errCode === 0){
+                dispatch(fetchGenderSuccess(res.data))
+            }else{
+                dispatch(fetchGenderFailed())
+            }
+        } catch (e) {
+            dispatch(fetchGenderFailed())                 //in case it fails, we change the status right away
+            console.log('fetchGenderStart error', e)
+        }
+    }
+}
+
+
+IN ORDER TO SAVE DATA INTO REDUX:
+we do this in the success case in reducer
+        case actionTypes.FETCH_GENDER_SUCCESS:
+            let copyState = {...state}              //this is how we assign data into redux
+            copyState.genders = action.data
+            console.log('fire gender success: ', copyState)
+
+            return {
+                ...copyState,
+            }
