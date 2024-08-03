@@ -184,7 +184,6 @@ import CustomScrollbars.js in file App
                                 </Switch>
                             </CustomScrollbars>
 
-From now on we start dynamically loading data from database to show on UI, no hardcoding anymore
 
 
 Anything in here are props from Redux   
@@ -211,4 +210,95 @@ in const userPersistConfig = {
     whitelist: ['isLoggedIn', 'userInfo', 'language']
 };
 
-add 'language' in whitelist
+--> add 'language' in whitelist
+
+**************************************************************************************************
+From now on we start dynamically loading data from database to show on UI, no hardcoding anymore:
+ 1. Dynamically load gender options from database: We let the Backend take care of getting data from database, so in the backend nodejs side:
+
+ In the web.js on backend nodejs side, we have
+    router.get('/api/allcode', userController.getAllCode);
+
+So we already have function to retrieve data from database
+
+Now in frontend ReactJS:
+IN userService.js, create this function to connect with whatever route in Backend Nodejs that has /api/allcode:
+
+const getAllCodeService = (inputType) => {
+    // console.log(inputType)
+    return axios.get(`/api/allcode?id=${inputType}`)
+}
+
+Then in userRedux, import the function to use later(passing param):
+import { getAllCodeService } from '../../../services/userService';
+
+
+Then retrieve the data from backend in componentDidMount, create an array earlier to receive data
+    async componentDidMount() {
+        try{
+            let res = await getAllCodeService('gender')
+            if(res && res.errCode === 0){
+                this.setState({
+                    genderArr: res.data
+                })
+            }
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+
+
+Create a new var inside render function:
+let genders = this.state.genderArr.filter((item, index)=> index !== 2)
+
+
+Using JS array method map function in EJS
+                                     {genders && genders.length > 0 &&
+                                    genders.map((item, index)=>{
+                                            return(
+                                                <option key={index}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>                        
+                                            )
+                                    })}
+
+EXPLANATION REDUX CONCEPTS:
+https://www.youtube.com/watch?v=ZJD73jvuTjU&list=PLncHg6Kn2JT6E38Z3kit9Hnif1xC_9VqI&index=68
+
+
+appReducer saves the actions related to the whole app, ex: language
+
+userReducer is every action related to users (any action an user may fire while accessing the website), ex: create new user, edit user, delete user
+
+rootReducer is to combine all the other reducers
+
+
+To actively connect react to redux, we gotta fire an action
+ -> gotta define an action
+ ->in store folder, actions folder, userActions.js file, 
+
+ An action is always start, doing and end, so in actions, gotta have 3 functions for an action
+ After creating those functions in individual action file, initialize them in actionTypes.js
+
+ Then create an individual reducer so that later when we fire an action
+ Don't forget to import and initialize in rootReducer too, so that later in React components we can access Redux state via the key
+
+ In each reducer there gonna be a loop scanning through all actions (the switch case)
+ So we pass all the actions we initialize in actions here in the switch case
+
+
+ Then in order to fire action, in userRedux.js import actions
+ In order to fire an event of redux, gotta use keyword dispatch, so in userRedux:
+ 
+ const mapDispatchToProps = dispatch => {
+    return {
+        // processLogout: () => dispatch(actions.processLogout()),
+        // changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language))
+        getGenderStart: () => dispatch(actions.fetchGenderStart())
+    };
+};
+
+Then to fire it immediately after rendering the component, put this.props.'action name' in componentDidMount
+When it fire an action, that's when we call API
+
+
+=> in action file, import the function that retrieves data from database (like import { getAllCodeService } from '../../services/userService';)
