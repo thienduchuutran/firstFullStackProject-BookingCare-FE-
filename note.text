@@ -330,3 +330,15 @@ we do this in the success case in reducer
             return {
                 ...copyState,
             }
+
+IN ORDER TO ASSIGN DATA FROM REDUX TO REACT Component:
+now go back to the component (userRedux in this case)
+initialize in mapDispatchToProps (which also means passing the var from redux to react):
+const mapStateToProps = state => {
+    return {
+        language: state.app.language,
+        genderRedux: state.admin.genders
+    };
+};
+
+now at the beginning of the render function just this.props.'name'
