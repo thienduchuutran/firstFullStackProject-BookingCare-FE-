@@ -342,3 +342,14 @@ const mapStateToProps = state => {
 };
 
 now at the beginning of the render function just this.props.'name'
+
+NOW HOW TO MAKE REACT COMPONENT RE-RENDER THE NEW DATA?
+-> There is function in React helps detect whenever variables in props change, which calls update component
+----> componentDidUpdate
+    componentDidUpdate(prevProps, prevState, snapshot){
+        if(prevProps.genderRedux !== this.props.genderRedux){
+            this.setState({
+                genderArr: this.props.genderRedux
+            })
+        }
+    }
