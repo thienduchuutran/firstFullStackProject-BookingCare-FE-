@@ -10,7 +10,9 @@ class UserRedux extends Component {
     constructor(props){
         super(props)
         this.state = {
-            genderArr: []
+            genderArr: [],
+            positionArr: [],
+            roleArr: []
         }
     }
 
@@ -20,10 +22,24 @@ class UserRedux extends Component {
                 genderArr: this.props.genderRedux
             })
         }
+
+        if(prevProps.roleRedux !== this.props.roleRedux){
+            this.setState({
+                roleArr: this.props.roleRedux
+            })
+        }
+
+        if(prevProps.positionRedux !== this.props.positionRedux){
+            this.setState({
+                positionArr: this.props.positionRedux
+            })
+        }
     }
 
     async componentDidMount() {
         this.props.getGenderStart()
+        this.props.getPositionStart()
+        this.props.getRoleStart()
         // try{
         //     let res = await getAllCodeService('gender')
         //     if(res && res.errCode === 0){
@@ -40,7 +56,10 @@ class UserRedux extends Component {
     render() {
         let genders = this.state.genderArr.filter((item, index)=> index !== 2)
         let language = this.props.language
+        let roles = this.state.roleArr
+        let positions = this.state.positionArr
         let isGetGender = this.props.isLoadingGender
+
 
         return (
             <div className='user-redux-container'>
@@ -95,15 +114,23 @@ class UserRedux extends Component {
                             <div className='col-3'>
                                 <label><FormattedMessage id="manage-user.position"/></label>
                                 <select className='form-control'>
-                                    <option selected>Choose...</option>
-                                    <option >...</option>
+                                    {positions && positions.length > 0 &&
+                                        positions.map((item, index)=>{
+                                            return(
+                                                <option key={index}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>  
+                                            )
+                                        })}
                                 </select>
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id="manage-user.role"/></label>
                                 <select className='form-control'>
-                                    <option selected>Choose...</option>
-                                    <option >...</option>
+                                    {roles && roles.length > 0 &&
+                                    roles.map((item, index)=>{
+                                        return(
+                                            <option key={index}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>  
+                                        )
+                                    })}
                                 </select>
                             </div>
                             <div className='col-3'>
@@ -127,7 +154,9 @@ const mapStateToProps = state => {
     return {
         language: state.app.language,
         genderRedux: state.admin.genders,
-        isLoadingGender: state.admin.isLoadingGender
+        isLoadingGender: state.admin.isLoadingGender,
+        positionRedux: state.admin.positions,
+        roleRedux: state.admin.roles,
     };
 };
 
@@ -135,7 +164,9 @@ const mapDispatchToProps = dispatch => {
     return {
         // processLogout: () => dispatch(actions.processLogout()),
         // changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language))
-        getGenderStart: () => dispatch(actions.fetchGenderStart())
+        getGenderStart: () => dispatch(actions.fetchGenderStart()),
+        getPositionStart: () => dispatch(actions.fetchPositionStart()),
+        getRoleStart: () => dispatch(actions.fetchRoleStart())
     };
 };
 
