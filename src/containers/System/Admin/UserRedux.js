@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { getAllCodeService } from '../../../services/userService';
+import './UserRedux.scss'
 import { valuesIn } from 'lodash';
 import { LANGUAGES } from '../../../utils';
 import * as actions from '../../../store/actions'
@@ -52,6 +52,12 @@ class UserRedux extends Component {
         // }
     }
 
+    handleOnchangeImage = (event)=>{
+        let data = event.target.files
+        let file = data[0]
+        console.log('file: ', file)
+         
+    }
 
     render() {
         let genders = this.state.genderArr.filter((item, index)=> index !== 2)
@@ -135,7 +141,14 @@ class UserRedux extends Component {
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id="manage-user.image"/></label>
-                                <input className='form-control' type='text'/>
+                                <div className='preview-img-container'>
+                                    <input id='previewImage' hidden type='file' 
+                                        onChange={(event)=>this.handleOnchangeImage(event)}
+                                    />
+                                    <label className='label-upload' htmlFor='previewImage'>Tải ảnh <i className='fas fa-upload'></i></label>
+                                    <div className='preview-image'></div>
+                                </div>
+
                             </div>
                             
                             <div className='col-12'>

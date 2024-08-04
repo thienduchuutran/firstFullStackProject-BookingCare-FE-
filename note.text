@@ -359,3 +359,12 @@ NOW HOW TO MAKE REACT COMPONENT RE-RENDER THE NEW DATA?
 first define actions in actionTypes.js
 second set up cases (which case falls into what action) in adminActions.js, at the same time adminActions passes data into adminReducer so adminReducer can update Redux vars
 third modifying redux variables (which then will be passed into react components) in adminReducer.js depending on which case fallen into
+
+
+HOW TO CREATE A SECTION TO UPLOAD IMAGE:
+-->                             <div>
+                                    <input id='previewImage' hidden type='file'/>
+                                    <label htmlFor='previewImage'>Tải ảnh</label>
+                                    <div className='preview-image'></div>
+                                </div>                          
+                                
