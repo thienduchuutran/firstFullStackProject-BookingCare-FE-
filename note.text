@@ -368,3 +368,6 @@ HOW TO CREATE A SECTION TO UPLOAD IMAGE:
                                     <div className='preview-image'></div>
                                 </div>                          
                                 
+
+HOW TO PREVIEW IMAGE:
+--> have to create a preview section first, then install a library: npm install --save react-image-lightbox@5.1.1   
