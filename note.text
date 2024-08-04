@@ -353,3 +353,9 @@ NOW HOW TO MAKE REACT COMPONENT RE-RENDER THE NEW DATA?
             })
         }
     }
+
+
+****REDUX*****
+first define actions in actionTypes.js
+second set up cases (which case falls into what action) in adminActions.js, at the same time adminActions passes data into adminReducer so adminReducer can update Redux vars
+third modifying redux variables (which then will be passed into react components) in adminReducer.js depending on which case fallen into

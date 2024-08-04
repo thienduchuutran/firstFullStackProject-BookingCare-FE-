@@ -40,15 +40,17 @@ class UserRedux extends Component {
     render() {
         let genders = this.state.genderArr.filter((item, index)=> index !== 2)
         let language = this.props.language
+        let isGetGender = this.props.isLoadingGender
 
         return (
             <div className='user-redux-container'>
                 <div className="title" >Learn React Redux with Duc</div>
-
                 <div className='user-redux-body'>
                     <div className='container'>
                         <div className='row'>
                             <div className='col-12 my-3'><FormattedMessage id="manage-user.add"/></div>
+                            <div className='col-12'>{isGetGender === true? 'Loading gender' : ''}</div>
+
                             <div className='col-3'>
                                 <label><FormattedMessage id="manage-user.email"/></label>
                                 <input className='form-control' type='email'/>
@@ -124,7 +126,8 @@ class UserRedux extends Component {
 const mapStateToProps = state => {
     return {
         language: state.app.language,
-        genderRedux: state.admin.genders
+        genderRedux: state.admin.genders,
+        isLoadingGender: state.admin.isLoadingGender
     };
 };
 
