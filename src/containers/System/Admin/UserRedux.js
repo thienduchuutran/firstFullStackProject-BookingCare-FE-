@@ -94,7 +94,36 @@ class UserRedux extends Component {
     }
 
     handleSaveUser = () => {
-        console.log('before submit check state: ', this.state)
+        let isValid = this.checkValidateInput()
+        if(isValid === false) return
+
+        //fire redux action
+        this.props.createNewUser({
+            email: this.state.email,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            address: this.state.address,
+            phoneNumber: this.state.phoneNumber,
+            gender: this.state.gender,
+            roleId: this.state.role,
+            positionId: this.state.position
+        })
+        
+    }
+
+    checkValidateInput = () => {
+        let isValid = true
+        let arrCheck = ['email', 'password', 'firstName', 'lastName', 'phoneNumber', 'address']
+        for(let i = 0; i < arrCheck.length; i++){
+            if(!this.state[arrCheck[i]]){
+                isValid = false
+                alert('this input is required: ' +arrCheck[i])
+                break
+            }
+        }
+
+        return 
     }
 
     onChangeInput = (event, id)=> {
@@ -290,7 +319,8 @@ const mapDispatchToProps = dispatch => {
         // changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language))
         getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
-        getRoleStart: () => dispatch(actions.fetchRoleStart())
+        getRoleStart: () => dispatch(actions.fetchRoleStart()),
+        createNewUser: (data) => dispatch(actions.createNewUser(data))
     };
 };
 
