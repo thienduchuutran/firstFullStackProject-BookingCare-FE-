@@ -7,6 +7,7 @@ import { LANGUAGES } from '../../../utils';
 import * as actions from '../../../store/actions'
 // import Lightbox from "yet-another-react-lightbox";
 // import "yet-another-react-lightbox/styles.css";
+import TableManageUser from './TableManageUser';
 
 class UserRedux extends Component {
     constructor(props){
@@ -58,9 +59,9 @@ class UserRedux extends Component {
     }
 
     async componentDidMount() {
-        this.props.getGenderStart()
-        this.props.getPositionStart()
-        this.props.getRoleStart()
+        // this.props.getGenderStart()
+        // this.props.getPositionStart()
+        // this.props.getRoleStart()
         // try{
         //     let res = await getAllCodeService('gender')
         //     if(res && res.errCode === 0){
@@ -147,7 +148,9 @@ class UserRedux extends Component {
     }
 
     render() {
-        let genders = this.state.genderArr.filter((item, index)=> index !== 2)
+
+        let genders = this.state.genderArr && this.state.genderArr.length > 0 ? this.state.genderArr.filter((item, index)=> index !== 2) : []
+
         let language = this.props.language
         let roles = this.state.roleArr
         let positions = this.state.positionArr
@@ -281,14 +284,21 @@ class UserRedux extends Component {
 
                             </div>
                             
-                            <div className='col-12'>
+                            <div className='col-12 my-3'>
                                 <button className='btn btn-primary'
                                         onClick={()=>this.handleSaveUser()}
-                                ><FormattedMessage id="manage-user.save"/></button>
+                                >
+                                    <FormattedMessage id="manage-user.save"/></button>
+                            </div>
+
+                            <div className='col-12'>
+                                <TableManageUser/>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                
                     
                     {/* {this.state.isOpen === true &&
                         <Lightbox

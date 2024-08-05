@@ -27,7 +27,7 @@ const editUserService = (inputData) => {
 }
 
 const getAllCodeService = (inputType) => {
-    // console.log(inputType)
+    console.log('input type: ',inputType)
     return axios.get(`/api/allcode?id=${inputType}`)
 }
 

@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { getAllCodeService, createNewUserService } from '../../services/userService';
+import { getAllCodeService, createNewUserService, getAllUsers } from '../../services/userService';
 
 // export const fetchGenderStart = () => ({
 //     type: actionTypes.FETCH_GENDER_START
@@ -13,7 +13,7 @@ export const fetchGenderStart =  () => {
             })
             let res = await getAllCodeService("GENDER")
             if (res && res.errCode === 0){
-                dispatch(fetchGenderSuccess(res.data))
+                dispatch(fetchGenderSuccess(res.users))
             }else{
                 dispatch(fetchGenderFailed())
             }
@@ -111,3 +111,30 @@ export const saveUserSuccess = ()=>({
 export const saveUserFailed = ()=>({
     type: 'CREATE_USER_FAILED'
 })  
+
+
+export const fetchAllUsersStart =  () => {
+    return async(dispatch, getState) => {
+        try{
+            let res = await getAllUsers("ALL")
+            console.log('res: ',res)
+            if (res && res.errCode === 0){
+                dispatch(fetchAllUsersSuccess(res.users))
+            }else{
+                dispatch(fetchAllUsersFailed())
+            }
+        } catch (e) {
+            dispatch(fetchAllUsersFailed())                 //in case it fails, we change the status right away
+            console.log('fetchGenderStart error', e)
+        }
+    }
+}
+
+export const fetchAllUsersSuccess = (data) =>({     //the data here is retrieved from dispatch(fetchAllUsersSuccess(res.data))
+    type: 'FETCH_ALL_USERS_SUCCESS',
+    users: data
+})
+
+export const fetchAllUsersFailed = (data) =>({    
+    type: 'FETCH_ALL_USERS_SUCCESS',
+})
