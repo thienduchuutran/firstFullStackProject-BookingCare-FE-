@@ -117,9 +117,8 @@ export const fetchAllUsersStart =  () => {
     return async(dispatch, getState) => {
         try{
             let res = await getAllUsers("ALL")
-            console.log('res: ',res)
             if (res && res.errCode === 0){
-                dispatch(fetchAllUsersSuccess(res.users))
+                dispatch(fetchAllUsersSuccess(res.users.reverse()))         //adding reverse() to sort from newest to oldest
             }else{
                 dispatch(fetchAllUsersFailed())
             }
