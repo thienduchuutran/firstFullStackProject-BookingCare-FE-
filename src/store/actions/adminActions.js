@@ -1,5 +1,6 @@
 import actionTypes from './actionTypes';
 import { getAllCodeService, createNewUserService, getAllUsers } from '../../services/userService';
+import { toast } from 'react-toastify';
 
 // export const fetchGenderStart = () => ({
 //     type: actionTypes.FETCH_GENDER_START
@@ -91,8 +92,8 @@ export const createNewUser = (data)=>{
     return async(dispatch, getState) => {
         try{
             let res = await createNewUserService(data)
-            console.log('check user redux: ', res)
             if (res && res.errCode === 0){
+                toast.success('Created a new user successfully')
                 dispatch(saveUserSuccess())
             }else{
                 dispatch(saveUserFailed())
