@@ -371,3 +371,13 @@ HOW TO CREATE A SECTION TO UPLOAD IMAGE:
 
 HOW TO PREVIEW IMAGE:
 --> have to create a preview section first, then install a library: npm install --save react-image-lightbox@5.1.1   
+
+
+WITH REDUX:
+- To have the table in UI automatically update itself after creating a new user in CRUD:
+    ! When we create a new user, we will click the save button => hit the handleSaveUser function in UserRedux.js
+    ! We have a fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()) from TableManageUser.js to display all users in database
+    ! We put this.props.fetchUserRedux() in handleSaveUser function but wrap it in a setTimeOut function to wait for database
+
+OR
+in adminAction.js, in createNewUser function, put dispatch(fetchAllUsersStart) in the successful if

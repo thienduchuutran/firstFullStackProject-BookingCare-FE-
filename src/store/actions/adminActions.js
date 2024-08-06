@@ -13,7 +13,7 @@ export const fetchGenderStart =  () => {
             })
             let res = await getAllCodeService("GENDER")
             if (res && res.errCode === 0){
-                dispatch(fetchGenderSuccess(res.users))
+                dispatch(fetchGenderSuccess(res.data))
             }else{
                 dispatch(fetchGenderFailed())
             }

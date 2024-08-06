@@ -56,12 +56,27 @@ class UserRedux extends Component {
                 position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : ''
             })
         }
+
+        if(prevProps.listUsers !== this.props.listUsers){
+            this.setState({
+                email: '',
+                password: '',
+                firstName: '',
+                lastName: '',
+                phoneNumber: '',
+                address: '',
+                gender: '',
+                position: '',
+                role: '',
+                avatar: '',                
+            })
+        }
     }
 
     async componentDidMount() {
-        // this.props.getGenderStart()
-        // this.props.getPositionStart()
-        // this.props.getRoleStart()
+        this.props.getGenderStart()
+        this.props.getPositionStart()
+        this.props.getRoleStart()
         // try{
         //     let res = await getAllCodeService('gender')
         //     if(res && res.errCode === 0){
@@ -98,6 +113,7 @@ class UserRedux extends Component {
         let isValid = this.checkValidateInput()
         if(isValid === false) return
 
+
         //fire redux action
         this.props.createNewUser({
             email: this.state.email,
@@ -110,7 +126,12 @@ class UserRedux extends Component {
             roleId: this.state.role,
             positionId: this.state.position
         })
-        
+
+        //Do this to WAIT for the new user info to be saved in database, then fetch all users. Otherswise
+        //the fetching goes before database saves new data 
+        setTimeout(()=>{
+            this.props.fetchUserRedux()
+        }, 1000)
     }
 
     checkValidateInput = () => {
@@ -291,7 +312,7 @@ class UserRedux extends Component {
                                     <FormattedMessage id="manage-user.save"/></button>
                             </div>
 
-                            <div className='col-12'>
+                            <div className='col-12 mb-5'>
                                 <TableManageUser/>
                             </div>
                         </div>
@@ -320,6 +341,7 @@ const mapStateToProps = state => {
         isLoadingGender: state.admin.isLoadingGender,
         positionRedux: state.admin.positions,
         roleRedux: state.admin.roles,
+        listUsers: state.admin.users,
     };
 };
 
@@ -330,7 +352,8 @@ const mapDispatchToProps = dispatch => {
         getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
-        createNewUser: (data) => dispatch(actions.createNewUser(data))
+        createNewUser: (data) => dispatch(actions.createNewUser(data)),
+        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart())
     };
 };
 
