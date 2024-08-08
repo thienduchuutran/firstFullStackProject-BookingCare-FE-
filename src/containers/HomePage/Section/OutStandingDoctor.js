@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
+import * as actions from '../../../store/actions'
 
 
 class OutStandingDoctor extends Component {
 
-    render() {
+    componentDidMount() {
+        this.props.loadTopDoctors()
+    }
 
+    render() {
+        console.log('check topDOctors redux: ', this.props.topDoctorsRedux)
         return (
             <div className='section-share section-outstanding-doctor'>
                 <div className='section-container'>
@@ -101,12 +106,14 @@ class OutStandingDoctor extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        topDoctorsRedux: state.admin.topDoctors
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        loadTopDoctors: () => dispatch(actions.fetchTopDoctors())
     };
 };
 

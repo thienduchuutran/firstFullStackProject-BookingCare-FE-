@@ -30,7 +30,6 @@ class TableManageUser extends Component {
     }
 
     handleEditUser = (user) => {
-        console.log(user)
         this.props.handleEditUserFromParentKey(user)
     }
     render() {
