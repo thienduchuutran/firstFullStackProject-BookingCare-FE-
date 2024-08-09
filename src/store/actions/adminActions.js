@@ -1,7 +1,7 @@
 import actionTypes from './actionTypes';
 import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService, editUserService, getTopDoctorHomeService } from '../../services/userService';
 import { toast } from 'react-toastify';
-import { dispatch } from '../../redux';
+
 
 // export const fetchGenderStart = () => ({
 //     type: actionTypes.FETCH_GENDER_START
@@ -119,6 +119,7 @@ export const fetchAllUsersStart =  () => {
     return async(dispatch, getState) => {
         try{
             let res = await getAllUsers("ALL")
+            console.log('users: ', res)
             if (res && res.errCode === 0){
                 dispatch(fetchAllUsersSuccess(res.users.reverse()))         //adding reverse() to sort from newest to oldest
             }else{
@@ -200,11 +201,11 @@ export const editUserFailed = () =>({
 export const fetchTopDoctors = () => {
     return async (dispatch, getState) => {
         try{
-            let res = await getTopDoctorHomeService('3')
+            let res = await getTopDoctorHomeService('')
             if(res && res.errCode === 0){
                 dispatch({
                     type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
-                    dataDoctor: res.data
+                    dataDoctors: res.data
                 })
             }else{
                 dispatch({
@@ -212,7 +213,7 @@ export const fetchTopDoctors = () => {
                 })
             }
         }catch(e){
-            console.log('', e)
+            console.log('FETCH_TOP_DOCTORS_FAILED', e)
             dispatch({
                 type: actionTypes.FETCH_TOP_DOCTORS_FAILED
             })

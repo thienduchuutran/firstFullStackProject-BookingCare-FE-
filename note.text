@@ -273,7 +273,7 @@ rootReducer is to combine all the other reducers
 
 
 To actively connect react to redux, we gotta fire an action
- -> gotta define an action
+ -> gotta navigate an action (to decide if it leads to success case or fail case)
  ->in store folder, actions folder, userActions.js file, 
 
  An action is always start, doing and end, so in actions, gotta have 3 functions for an action
@@ -287,7 +287,7 @@ To actively connect react to redux, we gotta fire an action
 
 
  Then in order to fire action, in userRedux.js import actions
- In order to fire an event of redux, gotta use keyword dispatch, so in userRedux:
+ In order to fire an event of redux, gotta use keyword dispatch, so in userRedux.js:
  
  const mapDispatchToProps = dispatch => {
     return {
@@ -381,3 +381,14 @@ WITH REDUX:
 
 OR
 in adminAction.js, in createNewUser function, put dispatch(fetchAllUsersStart) in the successful if
+
+
+-----------------------------------------------------------------------
+TO load data of anything, we need 
+    constructor(props){
+        super(props)
+        this.state ={
+            arrDoctors: []
+        }
+    }
+first to have a local var to store data from redux
