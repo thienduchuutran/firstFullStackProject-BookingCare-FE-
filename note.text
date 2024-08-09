@@ -271,6 +271,10 @@ userReducer is every action related to users (any action an user may fire while 
 
 rootReducer is to combine all the other reducers
 
+In actionTypes, we only define the name of the actions
+in adminReducer, we define the function for the actions (deciding when to fall into success or failure)
+in adminAction, we decide what to do next in success and failure cases
+
 
 To actively connect react to redux, we gotta fire an action
  -> gotta navigate an action (to decide if it leads to success case or fail case)
