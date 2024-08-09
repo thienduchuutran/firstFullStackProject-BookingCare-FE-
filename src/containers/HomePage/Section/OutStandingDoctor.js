@@ -47,7 +47,7 @@ class OutStandingDoctor extends Component {
                             && arrDoctors.map((item, index)=>{
                                 let imageBase64 = ''
                                 if(item.image){
-                                    imageBase64 = new Buffer(item.image, 'base64').toString('binary')
+                                    imageBase64 = new Buffer(item.image, 'base64').toString('binary')       //decoding image into binary to show on UI
                                 }
                                 let nameVi = `${item.positionData.valueVi} ${item.lastName} ${item.firstName}`      //set vietnamese and english names beforehand to put in html UI later
                                 let nameEn = `${item.positionData.valueEn} ${item.firstName} ${item.lastName}`
@@ -57,7 +57,7 @@ class OutStandingDoctor extends Component {
                                             <div className='outer-bg'>
                                                 <div 
                                                     className='bg-image section-outstanding-doctor'
-                                                    style={{backgroundImage: `url(${imageBase64})`}}
+                                                    style={{backgroundImage: `url(${imageBase64})`}}       //using inline style right here to get the exact image according to specific item
                                                 ></div>
                                             </div>
                                             <div className='position text-center'>
