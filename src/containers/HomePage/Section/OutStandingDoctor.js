@@ -49,7 +49,7 @@ class OutStandingDoctor extends Component {
                                 if(item.image){
                                     imageBase64 = new Buffer(item.image, 'base64').toString('binary')
                                 }
-                                let nameVi = `${item.positionData.valueVi} ${item.lastName} ${item.firstName}`
+                                let nameVi = `${item.positionData.valueVi} ${item.lastName} ${item.firstName}`      //set vietnamese and english names beforehand to put in html UI later
                                 let nameEn = `${item.positionData.valueEn} ${item.firstName} ${item.lastName}`
                                 return(
                                     <div className='section-customize' key={index}>
