@@ -31,14 +31,13 @@ class OutStandingDoctor extends Component {
         let {language} = this.props
         console.log('check language: ', language)
         let arrDoctors = this.state.arrDoctors
-        arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors)
 
         return (
             <div className='section-share section-outstanding-doctor'>
                 <div className='section-container'>
                     <div className='section-header'>
-                        <span className='title-section'>Bác sĩ nổi bật tuần qua</span>
-                        <button className='btn-section'>Xem thêm</button>
+                        <span className='title-section'><FormattedMessage id="homepage.outstanding-doctor"/></span>
+                        <button className='btn-section'><FormattedMessage id="homepage.more-info"/></button>
                     </div>
 
                     <div className='section-body'>

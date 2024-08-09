@@ -51,5 +51,9 @@
         "image": "Image",
         "save": "Save",
         "edit": "Edit user"
+    },
+    "homepage": {
+        "outstanding-doctor": "Doctors of the week",
+        "more-info": "More info"
     }
 }

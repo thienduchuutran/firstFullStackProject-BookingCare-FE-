@@ -12,16 +12,20 @@ import About from './Section/About';
 import HomeFooter from './Section/HomeFooter';
 
 class HomePage extends Component {
+    // handleAfterChange = (event, slick, currentSlide) =>{
+
+    // }
 
     render() {
         let settings = {
             dots: false,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 4,
             slidesToScroll: 1,
             // arrows: true,
             className: "myCustomCarousel",
+            // afterChange: this.handleAfterChange
           };
 
         return (
