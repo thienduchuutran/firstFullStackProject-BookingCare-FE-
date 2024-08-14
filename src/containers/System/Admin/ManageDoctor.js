@@ -10,6 +10,7 @@ import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select';
 import { lang } from 'moment';
 import { LANGUAGES } from '../../../utils';
+import { saveDetailDoctor } from '../../../services/userService';
 
 // const options = [
 //   { value: 'chocolate', label: 'Chocolate' },
@@ -74,10 +75,16 @@ class ManageDoctor extends Component {
         contentMarkdown: text,
         contentHTML: html,
     })
-    console.log('handleEditorChange', html, text);
     }
 
     handleSaveContentMarkdown = () => {
+        console.log('check selected doctor: ', this.state.selectedDoctor.value)
+        this.props.saveDetailDoctor({
+            contentHTML: this.state.contentHTML,
+            contentMarkdown: this.state.contentMarkdown,
+            description: this.state.description,
+            doctorId: this.state.selectedDoctor.value
+        })
         console.log('checkk state: ', this.state)
     }
 
@@ -147,7 +154,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchAllDoctors: () => dispatch(actions.fetchAllDoctors())
+        fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
+        saveDetailDoctor: (data) => dispatch(actions.saveDetailDoctor(data))
     };
 };
 

@@ -396,3 +396,16 @@ TO load data of anything, we need
         }
     }
 first to have a local var to store data from redux
+
+
+
+=-------------------------------
+
+HOW TO WHEN CLICKING ON A DIV, IT REDIRECTS TO ANOTHER COMPONENT?
+1. import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
+2. wrawp up export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor));
+3. now using history.push (aka redirecting)
+        this.props.history.push(`/users/${doctor.id}`)
+4. before all those, in App.js, 
+                                    <Route path="/users/:id" component={DetailDoctor}/> 
+
