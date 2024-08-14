@@ -8,7 +8,7 @@ class DetailDoctor extends Component {
     constructor(props){
         super(props)
         this.state={
-
+            detailDoctor: {}
         }
     }
 
@@ -16,10 +16,11 @@ class DetailDoctor extends Component {
         if(this.props.match && this.props.match.params && this.props.match.params.id){
             let id = this.props.match.params.id
             let res = await getDetailInfoDoctor(id)
-            console.log('check res: ', res)
-
-            // imageBase64 = new Buffer(user.image, 'base64').toString('binary')
-
+            if(res && res.errCode === 0){
+                this.setState({
+                    detailDoctor: res.data
+                })
+            }
         }
     }
 
@@ -29,7 +30,8 @@ class DetailDoctor extends Component {
 
 
     render() {
-        console.log(this.props.match.params.id)     //this to get the id on the URL 
+        // console.log(this.props.match.params.id)     //this to get the id on the URL 
+        console.log('check state: ', this.state)
         return (        
             <>
                 <HomeHeader isShowBanner={false}/>
