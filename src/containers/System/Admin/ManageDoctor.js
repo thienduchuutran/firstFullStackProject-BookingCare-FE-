@@ -12,6 +12,8 @@ import { lang } from 'moment';
 import { LANGUAGES } from '../../../utils';
 import { saveDetailDoctor } from '../../../services/userService';
 
+import { getDetailInfoDoctor } from '../../../services/userService';
+
 // const options = [
 //   { value: 'chocolate', label: 'Chocolate' },
 //   { value: 'strawberry', label: 'Strawberry' },
@@ -88,11 +90,21 @@ class ManageDoctor extends Component {
         console.log('checkk state: ', this.state)
     }
 
-    handleChange = (selectedOption) => {
-        console.log(selectedOption)
+    handleChangeSelect = async (selectedOption) => {
         this.setState({ 
             selectedDoctor: selectedOption
         });
+        let res = await getDetailInfoDoctor(selectedOption.value)
+        if(res && res.errCode === 0 && res.data && res.data.Markdown){
+            let markdown = res.data.Markdown
+            console.log(res.data.ManageDoctor)
+            this.setState({
+                contentHTML: markdown.contentHTML,
+                contentMarkdown: markdown.contentMarkdown,
+                description: markdown.description,                
+            })
+        }
+        console.log('check res select: ', res)
       };
 
     handleOnChangeDesc = (event) => {
@@ -111,7 +123,7 @@ class ManageDoctor extends Component {
                         <label>Chọn bác sĩ</label>
                               <Select
                                     value={this.state.selectedDoctor}
-                                    onChange={this.handleChange}
+                                    onChange={this.handleChangeSelect}
                                     options={this.state.listDoctors}
                                 />
                     </div>
