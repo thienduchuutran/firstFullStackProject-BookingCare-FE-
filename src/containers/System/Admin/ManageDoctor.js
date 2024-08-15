@@ -31,7 +31,8 @@ class ManageDoctor extends Component {
             contentMarkdown: '',
             contentHTML: '',
             selectedDoctor: '',
-            listDoctors: []
+            listDoctors: [],
+            hasOldData: false
         }
     }
 
@@ -101,7 +102,16 @@ class ManageDoctor extends Component {
             this.setState({
                 contentHTML: markdown.contentHTML,
                 contentMarkdown: markdown.contentMarkdown,
-                description: markdown.description,                
+                description: markdown.description, 
+                hasOldData: true               
+            })
+        }
+        else{
+            this.setState({
+                contentHTML: '',
+                contentMarkdown: '',
+                description: '',
+                hasOldData: false
             })
         }
         console.log('check res select: ', res)
@@ -114,6 +124,7 @@ class ManageDoctor extends Component {
     }
 
     render() {
+        let {hasOldData} = this.state
         console.log('check state: ', this.state)
         return (
             <div className='manage-doctor-container'>
@@ -145,13 +156,24 @@ class ManageDoctor extends Component {
                         style={{ height: '500px' }} 
                         renderHTML={text => mdParser.render(text)} 
                         onChange={this.handleEditorChange}              //this is when we are passing props into the component MdEditor, so we don't need arrow function here
+                        value={this.state.contentMarkdown}
                     />
                 </div>
 
                 <button 
-                    className='save-content-doctor'
+                    className={hasOldData === true ? 'save-content-doctor' : 'create-content-doctor'}
                     onClick={() => this.handleSaveContentMarkdown()}      //We need to know which doctor we are saving this content markdown for
-                >Lưu thông tin</button>
+                >
+                    {hasOldData === true? 
+                <span>
+                    Lưu thông tin
+                </span>
+                :
+                <span>
+                    Tạo thông tin
+                </span>  
+                }
+                    </button>
             </div>
         )
     }
