@@ -97,7 +97,7 @@ class ManageSchedule extends Component {
                         <div className='row'>
                             <div className='col-6 form-group'>
                                 <label>
-                                    Chọn bác sĩ
+                                    <FormattedMessage id="manage-schedule.choose-doctor"/>
                                 </label>
                                 <Select
                                     value={this.state.selectedDoctor}
@@ -107,7 +107,7 @@ class ManageSchedule extends Component {
                             </div>
                             <div className='col-6 form-group'>
                                 <label>
-                                    Chọn ngày
+                                    <FormattedMessage id="manage-schedule.choose-date"/>
                                 </label>
                                     <DatePicker
                                         onChange={this.handleOnchangeDatePicker}
@@ -133,7 +133,8 @@ class ManageSchedule extends Component {
                             </div>
                             
                             <div className='col-12'>
-                                <button className='btn btn-primary'> Lưu thông tin</button>
+                                <button className='btn btn-primary btn-save-schedule'><FormattedMessage id="manage-schedule.save"/>
+                                </button>
                             </div>
                         </div>
                     </div>        
