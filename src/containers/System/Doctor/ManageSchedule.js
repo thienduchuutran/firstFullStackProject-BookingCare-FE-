@@ -145,7 +145,7 @@ class ManageSchedule extends Component {
                                 && rangeTime.map((item, index) => {
                                     return(
                                         <button 
-                                            className='btn btn-schedule' 
+                                            className={item.isSelected === true ? 'btn btn-schedule active' : 'btn btn-schedule' }
                                             key={index}
                                             onClick={()=>this.handleClickBtnTime(item)}             //if we pass a parameter, it's gonna pass the click event as an object, not the actual item
                                         >

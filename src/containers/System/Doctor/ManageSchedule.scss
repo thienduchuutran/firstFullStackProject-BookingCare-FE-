@@ -16,13 +16,21 @@
         gap: 20px;
 
 
-        .btn-schedule{
+        button{
             padding: 5px 15px;
             border: 1px solid grey;
         }
     }
 
+    .btn-schedule{
+        &.active{
+            background: orange;
+        }
+    }
+
     .btn-save-schedule{
         margin-top: 20px;
+
+
     }
 }
