@@ -37,8 +37,17 @@ class ManageSchedule extends Component {
         }
 
         if(prevProps.allScheduleTime !== this.props.allScheduleTime){
+            let data = this.props.allScheduleTime
+            if(data && data.length > 0){
+                // data = data.map((item)=>{
+                //     item.isSelected = false
+                //     return item
+                // })
+
+                data = data.map(item =>({...item, isSelected: 'false'}))           //looping through all the appointments' times options, assign isSelected = false for each option
+            }
             this.setState({
-                rangeTime: this.props.allScheduleTime
+                rangeTime: data
             })
         }
 
@@ -78,6 +87,10 @@ class ManageSchedule extends Component {
         this.setState({
             currentDate: date[0]
         })
+    }
+
+    handleClickBtnTime = (time)=>{
+        console.log('check time: ', time)
     }
 
     render() {
@@ -125,6 +138,7 @@ class ManageSchedule extends Component {
                                         <button 
                                             className='btn btn-schedule' 
                                             key={index}
+                                            onClick={()=>this.handleClickBtnTime(item)}             //if we pass a parameter, it's gonna pass the click event as an object, not the actual item
                                         >
                                             {language === LANGUAGES.VI? item.valueVi : item.valueEn}
                                         </button>
