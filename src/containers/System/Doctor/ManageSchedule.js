@@ -44,7 +44,7 @@ class ManageSchedule extends Component {
                 //     return item
                 // })
 
-                data = data.map(item =>({...item, isSelected: 'false'}))           //looping through all the appointments' times options, assign isSelected = false for each option
+                data = data.map(item =>({...item, isSelected: false}))           //looping through all the appointments' times options, assign isSelected = false for each option
             }
             this.setState({
                 rangeTime: data
@@ -90,12 +90,21 @@ class ManageSchedule extends Component {
     }
 
     handleClickBtnTime = (time)=>{
-        console.log('check time: ', time)
+        let {rangeTime} = this.state
+        if(rangeTime && rangeTime.length > 0){
+            rangeTime = rangeTime.map(item => {
+                if(item.id === time.id) item.isSelected = !item.isSelected          //looping through the array of time options, if the option id looped = the option id selected
+                return item                                                         //then assign its isSelected value = the opposite value
+            })   
+            this.setState({
+                rangeTime: rangeTime
+            })
+        }
     }
 
     render() {
-        // console.log('check state: ', this.state)
-        console.log('check props: ', this.props)
+        console.log('check state: ', this.state)
+        // console.log('check props: ', this.props)
         let {rangeTime} = this.state
         let {language} = this.props
 
