@@ -5,13 +5,20 @@ import { FormattedMessage } from 'react-intl';
 import Select from 'react-select'
 import * as actions from '../../../store/actions'
 import { CRUD_ACTIONS, LANGUAGES } from '../../../utils';
+import DatePicker from '../../../components/Input/DatePicker';
+import moment from 'moment';
 
 class ManageSchedule extends Component {
     constructor(props){
         super(props)
+
+        // const currentDate = new Date()
+        // currentDate.setHours(0, 0, 0, 0)
+
         this.state = {
             listDoctors: [],
-            selectedDoctor: {}
+            selectedDoctor: {},
+            currentDate: '' //this is because we using onChange in DatePicker, so we need a state to save the value
         }
     }
 
@@ -59,6 +66,12 @@ class ManageSchedule extends Component {
         });
       };
 
+    handleOnchangeDatePicker = (date) => {
+        this.setState({
+            currentDate: date[0]
+        })
+    }
+
     render() {
         console.log('check state: ', this.state)
         return (        //We only want the header component here because we only wanna see it in the user manage page
@@ -84,11 +97,16 @@ class ManageSchedule extends Component {
                                 <label>
                                     Chọn ngày
                                 </label>
-                                <input className='form-control'/>
+                                    <DatePicker
+                                        onChange={this.handleOnchangeDatePicker}
+                                        className='form-control'
+                                        value={this.state.currentDate}
+                                        minDate={new Date()}
+                                        // selected={this.state.currentDate}
+                                    />
                             </div>
 
                             <div className='col-12 pick-hour-container'>
-
                             </div>
 
                             <button className='btn btn-primary'> Lưu thông tin</button>
