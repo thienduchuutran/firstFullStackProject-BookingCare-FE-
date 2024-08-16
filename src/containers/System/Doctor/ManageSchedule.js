@@ -18,12 +18,14 @@ class ManageSchedule extends Component {
         this.state = {
             listDoctors: [],
             selectedDoctor: {},
-            currentDate: '' //this is because we using onChange in DatePicker, so we need a state to save the value
+            currentDate: '', //this is because we using onChange in DatePicker, so we need a state to save the value
+            rangeTime: []
         }
     }
 
     componentDidMount(){
         this.props.fetchAllDoctors()
+        this.props.fetchAllScheduleTime()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
@@ -31,6 +33,12 @@ class ManageSchedule extends Component {
             let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
             this.setState({
                 listDoctors: dataSelect
+            })
+        }
+
+        if(prevProps.allScheduleTime !== this.props.allScheduleTime){
+            this.setState({
+                rangeTime: this.props.allScheduleTime
             })
         }
 
@@ -73,7 +81,11 @@ class ManageSchedule extends Component {
     }
 
     render() {
-        console.log('check state: ', this.state)
+        // console.log('check state: ', this.state)
+        console.log('check props: ', this.props)
+        let {rangeTime} = this.state
+        let {language} = this.props
+
         return (        //We only want the header component here because we only wanna see it in the user manage page
             <React.Fragment>   
                 <div className='manage-schedule-container'>
@@ -107,9 +119,22 @@ class ManageSchedule extends Component {
                             </div>
 
                             <div className='col-12 pick-hour-container'>
+                                {rangeTime && rangeTime.length > 0
+                                && rangeTime.map((item, index) => {
+                                    return(
+                                        <button 
+                                            className='btn btn-schedule' 
+                                            key={index}
+                                        >
+                                            {language === LANGUAGES.VI? item.valueVi : item.valueEn}
+                                        </button>
+                                    )
+                                })}
                             </div>
-
-                            <button className='btn btn-primary'> Lưu thông tin</button>
+                            
+                            <div className='col-12'>
+                                <button className='btn btn-primary'> Lưu thông tin</button>
+                            </div>
                         </div>
                     </div>        
                 </div>
@@ -122,13 +147,15 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         allDoctors: state.admin.allDoctors,
-        language: state.app.language
+        language: state.app.language,
+        allScheduleTime: state.admin.allScheduleTime
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
+        fetchAllScheduleTime: () => dispatch(actions.fetchAllScheduleTime())
     };
 };
 

@@ -9,7 +9,16 @@
     }
 
     .pick-hour-container{
-        height: 150px;
+        padding-top: 20px 0;
+        display: flex;
         border: 1px solid orange;
+        flex-wrap: wrap;
+        gap: 20px;
+
+
+        .btn-schedule{
+            padding: 5px 15px;
+            border: 1px solid grey;
+        }
     }
 }
