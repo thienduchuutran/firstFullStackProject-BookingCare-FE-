@@ -58,5 +58,9 @@
     "homepage": {
         "outstanding-doctor": "Doctors of the week",
         "more-info": "More info"
+    },
+
+    "manage-schedule":{
+        "title": "Manage doctors' appointments"
     }
 }

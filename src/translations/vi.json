@@ -59,5 +59,9 @@
     "homepage": {
         "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
         "more-info": "Xem thêm"
+    },
+
+    "manage-schedule":{
+        "title": "Quản lý lịch hẹn khám bệnh của bác sĩ"
     }
 }
