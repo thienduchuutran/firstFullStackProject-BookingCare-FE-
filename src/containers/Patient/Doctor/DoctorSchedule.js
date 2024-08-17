@@ -87,6 +87,7 @@ class DoctorSchedule extends Component {
         // }
 
         let {allDays, allAvailableTime} = this.state
+        let {language} = this.props
         return (        
             <div className='doctor-schedule-container'>
                 <div className='all-schedule'>
@@ -118,8 +119,10 @@ class DoctorSchedule extends Component {
                     <div className='time-content'>
                         {allAvailableTime && allAvailableTime.length > 0 &&
                         allAvailableTime.map((item, index)=>{
+                            let timeDisplay = language === LANGUAGES.VI? 
+                            item.timeTypeData.valueVi : item.timeTypeData.valueEn
                             return(
-                                <button key={index}>{item.timeType}</button>
+                                <button key={index}>{timeDisplay}</button>
                             )
                         })}
                     </div>

@@ -1,5 +1,5 @@
 .doctor-schedule-container{
-
+    height: 100%;
     .all-schedule{
 
 
@@ -31,7 +31,17 @@
                 padding: 5px 10px;
                 border: none;
                 outline: none;
-                background-color: grey;
+                background-color: #fff04b;
+                min-width: 120px;
+                border-radius: 10px;
+                font-weight: 600;
+                color: #333;
+
+                &:hover{
+                    background-color: #45c3d2;
+                    color: white;
+                    // font-weight: 100;
+                }
             }
         }
     }
