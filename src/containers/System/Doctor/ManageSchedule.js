@@ -9,6 +9,7 @@ import DatePicker from '../../../components/Input/DatePicker';
 import moment from 'moment';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
+import { saveBulkScheduleDoctor } from '../../../services/userService';
 
 class ManageSchedule extends Component {
     constructor(props){
@@ -104,7 +105,7 @@ class ManageSchedule extends Component {
         }
     }
 
-    handleSaveSchedule = ()=> {
+    handleSaveSchedule = async()=> {
         let {rangeTime, selectedDoctor, currentDate} = this.state
         let result = []
 
@@ -119,7 +120,9 @@ class ManageSchedule extends Component {
             return
         }
 
-        let formattedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)   //not to hardcode, re-format the timestand
+        // let formattedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)   //not to hardcode, re-format the timestand, sending to backend as string
+        // let formattedDate = moment(currentDate).unix()                                 //sending to backend as timestamp
+        let formattedDate = new Date(currentDate).getTime()
 
         if (rangeTime && rangeTime.length > 0){                                 //to put all the selected time (with isSelected = true) into a seperate array
             let selectedTime = rangeTime.filter(item=> item.isSelected === true)
@@ -128,7 +131,7 @@ class ManageSchedule extends Component {
                     let object = {}
                     object.doctorId = selectedDoctor.value //which is doctor id
                     object.date = formattedDate
-                    object.time = schedule.keyMap
+                    object.timeType = schedule.keyMap
                     result.push(object)
                 })
             }else{
@@ -137,7 +140,11 @@ class ManageSchedule extends Component {
             }
         }
 
-        console.log('check result: ', result)
+        let res = await saveBulkScheduleDoctor({
+            arrSchedule: result
+        })
+
+        console.log('check bulk create: ', res)
 
     }
 
