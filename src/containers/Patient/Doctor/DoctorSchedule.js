@@ -6,13 +6,15 @@ import moment from 'moment';
 import localization from 'moment/locale/vi'
 import { getScheduleDoctorByDate } from '../../../services/userService';
 import { LANGUAGES } from '../../../utils';
+import reactSelect from 'react-select';
 
 
 class DoctorSchedule extends Component {
     constructor(props){
         super(props)
         this.state={
-            allDays: []
+            allDays: [],
+            allAvailableTime: []
         }
     }
 
@@ -60,6 +62,12 @@ class DoctorSchedule extends Component {
             let date = event.target.value
             let res = await getScheduleDoctorByDate(doctorId, date)
             console.log('check res from react: ', res)
+
+            if(res && res.errCode === 0){
+                this.setState({
+                    allAvailableTime: res.data? res.data : []       //since the data is holding all the timestamp
+                })
+            }
         }
     }
     
@@ -78,7 +86,7 @@ class DoctorSchedule extends Component {
         //     })
         // }
 
-        let {allDays} = this.state
+        let {allDays, allAvailableTime} = this.state
         return (        
             <div className='doctor-schedule-container'>
                 <div className='all-schedule'>
@@ -108,9 +116,12 @@ class DoctorSchedule extends Component {
                     </div>
 
                     <div className='time-content'>
-                        <button>8-9</button>
-                        <button>8-9</button>
-                        <button>8-9</button>
+                        {allAvailableTime && allAvailableTime.length > 0 &&
+                        allAvailableTime.map((item, index)=>{
+                            return(
+                                <button key={index}>{item.timeType}</button>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
