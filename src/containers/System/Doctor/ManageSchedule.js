@@ -141,11 +141,18 @@ class ManageSchedule extends Component {
         }
 
         let res = await saveBulkScheduleDoctor({
-            arrSchedule: result
+            arrSchedule: result,
+            doctorId: selectedDoctor.value,
+            formattedDate: formattedDate
         })
 
-        console.log('check bulk create: ', res)
-
+        if(res.errCode === 0){
+            if(res.errMessage === 'already saved!'){
+                toast.info('already saved!')
+            }else if(res.errMessage === 'Ok'){
+                toast.success('successfully')
+            }
+        }
     }
 
     render() {
