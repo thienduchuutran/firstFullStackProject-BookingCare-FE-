@@ -4,7 +4,7 @@ import './DoctorSchedule.scss'
 // import Select from 'react-select';
 import moment from 'moment';
 import localization from 'moment/locale/vi'
-
+import { getScheduleDoctorByDate } from '../../../services/userService';
 import { LANGUAGES } from '../../../utils';
 
 
@@ -26,7 +26,7 @@ class DoctorSchedule extends Component {
     }
 
     //doing this so it looks clean in componentDidMount and componentDidUpdate
-    setArrays = (language) => {
+    setArrays = async (language) => {
         let allDays = []
         for (let i = 0; i < 8 ; i++){
             let object = {}
@@ -39,6 +39,9 @@ class DoctorSchedule extends Component {
                                                                                             // getting the first hour of the day, valueOf() converting to Unix time in milliseconds
             allDays.push(object)
         }
+
+        let res = await getScheduleDoctorByDate(3, 1724472000000)
+        console.log('check res from react: ', res)
 
         this.setState({
             allDays: allDays,
