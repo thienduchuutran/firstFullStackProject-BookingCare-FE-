@@ -1,0 +1,38 @@
+.doctor-schedule-container{
+
+    .all-schedule{
+
+
+        select{
+            text-transform: capitalize;
+        }
+
+    }
+
+    .all-available-time{
+        .text-calendar{
+            color: #333;
+            margin: 10px 0;
+            i{
+            }
+            span{
+                text-transform: uppercase;
+                margin-left: 5px;
+
+            }
+        }
+
+        .time-content{
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;    //When there is no space, it automatically jumps to the next line
+
+            button{
+                padding: 5px 10px;
+                border: none;
+                outline: none;
+                background-color: grey;
+            }
+        }
+    }
+}
