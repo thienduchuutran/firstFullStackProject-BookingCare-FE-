@@ -7,6 +7,8 @@ import * as actions from '../../../store/actions'
 import { CRUD_ACTIONS, LANGUAGES } from '../../../utils';
 import DatePicker from '../../../components/Input/DatePicker';
 import moment from 'moment';
+import _ from 'lodash';
+import { toast } from 'react-toastify';
 
 class ManageSchedule extends Component {
     constructor(props){
@@ -102,6 +104,21 @@ class ManageSchedule extends Component {
         }
     }
 
+    handleSaveSchedule = ()=> {
+        let {rangeTime, selectedDoctor, currentDate} = this.state
+
+        //validate date and doctor picks
+        if(!currentDate){
+            toast.error('Invalid date!')
+            return
+        }
+
+        if(selectedDoctor && _.isEmpty(selectedDoctor)){    
+            toast.error('invalid doctor selected!')
+            return
+        }
+    }
+
     render() {
         console.log('check state: ', this.state)
         // console.log('check props: ', this.props)
@@ -156,7 +173,9 @@ class ManageSchedule extends Component {
                             </div>
                             
                             <div className='col-12'>
-                                <button className='btn btn-primary btn-save-schedule'><FormattedMessage id="manage-schedule.save"/>
+                                <button 
+                                    onClick={()=> this.handleSaveSchedule()}
+                                    className='btn btn-primary btn-save-schedule'><FormattedMessage id="manage-schedule.save"/>
                                 </button>
                             </div>
                         </div>
