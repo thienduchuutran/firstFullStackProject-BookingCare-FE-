@@ -32,6 +32,21 @@
         }
     }
 
+    .schedule-doctor{
+        margin: 0 10px;
+        display: flex;
+        height: 200px;
+        border: 1px solid red;
+
+        .content-left{
+            width: 50%;
+        }
+
+        .content-right{
+            width: 50%;
+        }
+    }
+
     .detail-info-doctor{
         h3{
             font-size: 17px;

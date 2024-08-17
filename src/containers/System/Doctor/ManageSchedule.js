@@ -143,7 +143,7 @@ class ManageSchedule extends Component {
         let res = await saveBulkScheduleDoctor({
             arrSchedule: result,
             doctorId: selectedDoctor.value,
-            formattedDate: formattedDate
+            formattedDate: formattedDate            //passing these params for the backend to dynamically compare the existing data with the new data
         })
 
         if(res.errCode === 0){
