@@ -26,7 +26,7 @@ class DoctorSchedule extends Component {
     }
 
     //doing this so it looks clean in componentDidMount and componentDidUpdate
-    setArrays = async (language) => {
+    setArrays = (language) => {
         let allDays = []
         for (let i = 0; i < 8 ; i++){
             let object = {}
@@ -40,8 +40,7 @@ class DoctorSchedule extends Component {
             allDays.push(object)
         }
 
-        let res = await getScheduleDoctorByDate(3, 1724472000000)
-        console.log('check res from react: ', res)
+
 
         this.setState({
             allDays: allDays,
@@ -52,6 +51,16 @@ class DoctorSchedule extends Component {
         if(this.props.language !== prevProps.language){
             this.setArrays(this.props.language)
         }            
+    }
+
+    handleOnChangeSelect = async(event) => {
+
+        if(this.props.doctorIdFromParent && this.props.doctorIdFromParent !== -1){
+            let doctorId = this.props.doctorIdFromParent
+            let date = event.target.value
+            let res = await getScheduleDoctorByDate(doctorId, date)
+            console.log('check res from react: ', res)
+        }
     }
     
 
@@ -78,7 +87,7 @@ class DoctorSchedule extends Component {
                         styles={customStyles}
                     /> */}
 
-                    <select>
+                    <select onChange={(event)=>this.handleOnChangeSelect(event)}>
                         {allDays && allDays.length > 0
                         && allDays.map((item, index)=>{
                             return(
