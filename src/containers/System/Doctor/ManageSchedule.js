@@ -4,7 +4,7 @@ import './ManageSchedule.scss'
 import { FormattedMessage } from 'react-intl';
 import Select from 'react-select'
 import * as actions from '../../../store/actions'
-import { CRUD_ACTIONS, LANGUAGES } from '../../../utils';
+import { CRUD_ACTIONS, LANGUAGES, dateFormat } from '../../../utils';
 import DatePicker from '../../../components/Input/DatePicker';
 import moment from 'moment';
 import _ from 'lodash';
@@ -106,6 +106,7 @@ class ManageSchedule extends Component {
 
     handleSaveSchedule = ()=> {
         let {rangeTime, selectedDoctor, currentDate} = this.state
+        let result = []
 
         //validate date and doctor picks
         if(!currentDate){
@@ -117,6 +118,27 @@ class ManageSchedule extends Component {
             toast.error('invalid doctor selected!')
             return
         }
+
+        let formattedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)   //not to hardcode, re-format the timestand
+
+        if (rangeTime && rangeTime.length > 0){                                 //to put all the selected time (with isSelected = true) into a seperate array
+            let selectedTime = rangeTime.filter(item=> item.isSelected === true)
+            if(selectedTime && selectedTime.length > 0){
+                selectedTime.map(schedule => {
+                    let object = {}
+                    object.doctorId = selectedDoctor.value //which is doctor id
+                    object.date = formattedDate
+                    object.time = schedule.keyMap
+                    result.push(object)
+                })
+            }else{
+                toast.error('invalid selected time!')
+                return
+            }
+        }
+
+        console.log('check result: ', result)
+
     }
 
     render() {
