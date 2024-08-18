@@ -21,14 +21,17 @@ class DoctorSchedule extends Component {
     async componentDidMount(){
         let {language} = this.props
 
-        console.log('moment viet: ', moment(new Date()).format('dddd - DD/MM'))                   
-        console.log('moment eng: ', moment(new Date()).locale('en').format('ddd - DD/MM'))      //since we imported localization, now it prioritizes viet, so
-                                                                                                //if we wanna switch back to english, gotta use locale('en')
-        this.setArrays(language)
+        // console.log('moment viet: ', moment(new Date()).format('dddd - DD/MM'))                   
+        // console.log('moment eng: ', moment(new Date()).locale('en').format('ddd - DD/MM'))      //since we imported localization, now it prioritizes viet, so
+        //                                                                                         //if we wanna switch back to english, gotta use locale('en')
+        let allDays = this.getArrDays(language)
+            this.setState({
+                allDays: allDays,
+            })
     }
 
     //doing this so it looks clean in componentDidMount and componentDidUpdate
-    setArrays = (language) => {
+    getArrDays = (language) => {
         let allDays = []
         for (let i = 0; i < 8 ; i++){
             let object = {}
@@ -41,18 +44,23 @@ class DoctorSchedule extends Component {
                                                                                             // getting the first hour of the day, valueOf() converting to Unix time in milliseconds
             allDays.push(object)
         }
-
-
-
-        this.setState({
-            allDays: allDays,
-        })
+        return allDays
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot){                             //gotta run again in the componentDidUpdate() since it's gonna keep running 
+    async componentDidUpdate(prevProps, prevState, snapshot){                             //gotta run again in the componentDidUpdate() since it's gonna keep running 
         if(this.props.language !== prevProps.language){
-            this.setArrays(this.props.language)
-        }            
+            let allDays = this.getArrDays(this.props.language)
+            this.setState({
+                allDays: allDays,
+            })
+        }
+        if(prevProps.doctorIdFromParent !== this.props.doctorIdFromParent){
+            let allDays = this.getArrDays(this.props.language)
+            let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value)
+            this.setState({
+                allAvailableTime: res.data ? res.data : []
+            })
+        }         
     }
 
     handleOnChangeSelect = async(event) => {
@@ -117,14 +125,19 @@ class DoctorSchedule extends Component {
                     </div>
 
                     <div className='time-content'>
-                        {allAvailableTime && allAvailableTime.length > 0 &&
+                        {allAvailableTime && allAvailableTime.length > 0 ?
                         allAvailableTime.map((item, index)=>{
                             let timeDisplay = language === LANGUAGES.VI? 
                             item.timeTypeData.valueVi : item.timeTypeData.valueEn
                             return(
                                 <button key={index}>{timeDisplay}</button>
                             )
-                        })}
+                        })
+                    :
+                        <div>
+                            Bác sĩ không có lịch hẹn ngày này, chọn ngày khác
+                        </div>
+                    }
                     </div>
                 </div>
             </div>

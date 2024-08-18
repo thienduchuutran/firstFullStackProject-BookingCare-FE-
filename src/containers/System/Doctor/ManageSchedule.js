@@ -160,6 +160,7 @@ class ManageSchedule extends Component {
         // console.log('check props: ', this.props)
         let {rangeTime} = this.state
         let {language} = this.props
+        let yesterday = new Date(new Date().setDate(new Date().getDate()-1));
 
         return (        //We only want the header component here because we only wanna see it in the user manage page
             <React.Fragment>   
@@ -188,7 +189,7 @@ class ManageSchedule extends Component {
                                         onChange={this.handleOnchangeDatePicker}
                                         className='form-control'
                                         value={this.state.currentDate}
-                                        minDate={new Date()}
+                                        minDate={yesterday}
                                         // selected={this.state.currentDate}
                                     />
                             </div>
