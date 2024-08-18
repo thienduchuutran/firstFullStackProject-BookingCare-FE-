@@ -7,6 +7,7 @@ import localization from 'moment/locale/vi'
 import { getScheduleDoctorByDate } from '../../../services/userService';
 import { LANGUAGES } from '../../../utils';
 import reactSelect from 'react-select';
+import { FormattedMessage } from 'react-intl';
 
 
 class DoctorSchedule extends Component {
@@ -121,7 +122,7 @@ class DoctorSchedule extends Component {
 
                 <div className='all-available-time'>
                     <div className='text-calendar'>
-                        <i className="fas fa-calendar-alt"><span>Lịch khám</span></i>
+                        <i className="fas fa-calendar-alt"><span><FormattedMessage id="patient.detail-doctor.schedule"/></span></i>
                     </div>
 
                     <div className='time-content'>
@@ -130,12 +131,12 @@ class DoctorSchedule extends Component {
                             let timeDisplay = language === LANGUAGES.VI? 
                             item.timeTypeData.valueVi : item.timeTypeData.valueEn
                             return(
-                                <button key={index}>{timeDisplay}</button>
+                                <button key={index} className={language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}>{timeDisplay}</button>
                             )
                         })
                     :
-                        <div>
-                            Bác sĩ không có lịch hẹn ngày này, chọn ngày khác
+                        <div className='no-schedule'>
+                            <FormattedMessage id='patient.detail-doctor.no-schedule'/>
                         </div>
                     }
                     </div>
