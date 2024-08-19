@@ -125,6 +125,7 @@ class ManageDoctor extends Component {
         this.setState({ 
             selectedDoctor: selectedOption
         });
+
         let res = await getDetailInfoDoctor(selectedOption.value)
         if(res && res.errCode === 0 && res.data && res.data.Markdown){
             let markdown = res.data.Markdown
@@ -145,8 +146,25 @@ class ManageDoctor extends Component {
             })
         }
         console.log('check res select: ', res)
-      };
+    };
 
+    handleChangeSelectDoctorInfo = async (selectedOption, name) => {
+        console.log('check new select on change: ', selectedOption, name)
+
+        let stateName = name.name
+        let stateCopy = {...this.state}
+        stateCopy[stateName] = selectedOption
+
+        this.setState({
+            // selectedPrice: selectedOption.label, 
+            // selectedPayment: selectedOption.label,
+            // selectedProvince: selectedOption.label 
+            ...stateCopy           
+        })
+        console.log('check state: ', this.state)
+    }
+
+    
     handleOnChangeDesc = (event) => {
         this.setState({
             description: event.target.value
@@ -185,42 +203,45 @@ class ManageDoctor extends Component {
 
                 <div className='more-info-extra row'>
                     <div className='col-4 form-group'>
-                        <label>Chọn giá</label>
+                        <label><FormattedMessage id="admin.manage-doctor.price"/></label>
                         <Select
-                            // value={this.state.selectedPrice}
-                            onChange={this.handleChangeSelect}
+                            value={this.state.selectedPrice}
+                            onChange={this.handleChangeSelectDoctorInfo}
                             options={this.state.listPrice}
                             placeholder={"Chọn giá"}
+                            name="selectedPrice"
                         />
                     </div>
                     <div className='col-4 form-group'>
-                        <label>Chọn phương thức thanh toán</label>
+                        <label><FormattedMessage id="admin.manage-doctor.payment"/></label>
                         <Select
-                            // value={this.state.selectedDoctor}
-                            onChange={this.handleChangeSelect}
+                            value={this.state.selectedPayment}
+                            onChange={this.handleChangeSelectDoctorInfo}
                             options={this.state.listPayment}
                             placeholder={"Chọn phương thức thanh toán"}
+                            name="selectedPayment"
                         />
                     </div>
                     <div className='col-4 form-group'>
-                        <label>Chọn tỉnh thành</label>
+                        <label><FormattedMessage id="admin.manage-doctor.province"/></label>
                         <Select
-                            // value={this.state.selectedDoctor}
-                            onChange={this.handleChangeSelect}
+                            value={this.state.selectedProvince}
+                            onChange={this.handleChangeSelectDoctorInfo}
                             options={this.state.listProvince}
                             placeholder={"Chọn tỉnh thành"}
+                            name="selectedProvince"
                         />
                     </div>
                     <div className='col-4 form-group'>
-                        <label>Tên phòng khám</label>
+                        <label><FormattedMessage id="admin.manage-doctor.nameClinic"/></label>
                         <input className='form-control'/>
                     </div>
                     <div className='col-4 form-group'>
-                        <label>Địa chỉ phòng khám</label>
+                        <label><FormattedMessage id="admin.manage-doctor.addressClinic"/></label>
                         <input className='form-control'/>
                     </div>
                     <div className='col-4 form-group'>
-                        <label>Ghi chú</label>
+                        <label><FormattedMessage id="admin.manage-doctor.note"/></label>
                         <input className='form-control'/>
                     </div>
                 </div>
