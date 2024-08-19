@@ -37,9 +37,21 @@ class DoctorSchedule extends Component {
         for (let i = 0; i < 8 ; i++){
             let object = {}
             if(language === LANGUAGES.VI){
-                object.label = moment(new Date()).add(i, 'days').format('dddd - DD/MM')         //new Date() is today, inside the format() we have dddd to display "thứ"
+                if(i=== 0){
+                    let ddMM = moment(new Date()).format('DD/MM')
+                    let today = `Hôm nay - ${ddMM}`
+                    object.label = today
+                }else{
+                    object.label = moment(new Date()).add(i, 'days').format('dddd - DD/MM')         //new Date() is today, inside the format() we have dddd to display "thứ"
+                }
             }else{
-                object.label = moment(new Date()).add(i, 'days').locale('en').format('ddd - MM/DD')
+                if(i === 0){
+                    let ddMM = moment(new Date()).format('MM/DD')
+                    let today = `Today - ${ddMM}`
+                    object.label = today                    
+                }else{
+                    object.label = moment(new Date()).add(i, 'days').locale('en').format('ddd - MM/DD')
+                }
             }
             object.value = moment(new Date()).add(i, 'days').startOf('day').valueOf()       //add(i, 'days') to go through all weekdays, startOf('day') is
                                                                                             // getting the first hour of the day, valueOf() converting to Unix time in milliseconds
@@ -127,13 +139,22 @@ class DoctorSchedule extends Component {
 
                     <div className='time-content'>
                         {allAvailableTime && allAvailableTime.length > 0 ?
-                        allAvailableTime.map((item, index)=>{
-                            let timeDisplay = language === LANGUAGES.VI? 
-                            item.timeTypeData.valueVi : item.timeTypeData.valueEn
-                            return(
-                                <button key={index} className={language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}>{timeDisplay}</button>
-                            )
-                        })
+                        <React.Fragment>
+                            <div className='time-content-btns'>
+                                {allAvailableTime.map((item, index)=>{
+                                let timeDisplay = language === LANGUAGES.VI? 
+                                item.timeTypeData.valueVi : item.timeTypeData.valueEn
+                                return(
+                                    <button key={index} className={language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}>{timeDisplay}</button>
+                                    )
+                                })
+                                }
+                            </div>
+
+                        <div className='book-free'>
+                            <span><FormattedMessage id="patient.detail-doctor.choose"/> <i className='far fa-hand-point-up'></i> <FormattedMessage id="patient.detail-doctor.book-free"/></span>
+                        </div>
+                        </React.Fragment>
                     :
                         <div className='no-schedule'>
                             <FormattedMessage id='patient.detail-doctor.no-schedule'/>
