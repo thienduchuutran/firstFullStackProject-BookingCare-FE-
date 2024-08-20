@@ -145,7 +145,14 @@ class ManageDoctor extends Component {
             contentMarkdown: this.state.contentMarkdown,
             description: this.state.description,
             doctorId: this.state.selectedDoctor.value,
-            action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE
+            action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
+
+            selectedPrice: this.state.selectedPrice.value,  //PRI3
+            selectedPayment: this.state.selectedPayment.value,
+            selectedProvince: this.state.selectedProvince.value,
+            nameClinic: this.state.nameClinic,
+            addressClinic: this.state.addressClinic,
+            note: this.state.note
         })
         console.log('checkk state: ', this.state)
     }
@@ -190,13 +197,15 @@ class ManageDoctor extends Component {
             // selectedProvince: selectedOption.label 
             ...stateCopy           
         })
-        console.log('check state: ', this.state)
     }
 
     
-    handleOnChangeDesc = (event) => {
+    handleOnChangeText = (event, id) => {
+        let stateCopy = {...this.state}
+        stateCopy[id] = event.target.value
+        console.log('check id: ', id)
         this.setState({
-            description: event.target.value
+            ...stateCopy
         })
     }
 
@@ -222,7 +231,7 @@ class ManageDoctor extends Component {
                         <label><FormattedMessage id="admin.manage-doctor.intro"/> </label>
                         <textarea 
                             className='form-control'
-                            onChange={ (event) => this.handleOnChangeDesc(event)}
+                            onChange={ (event) => this.handleOnChangeText(event, 'description')}
                             value={this.state.description}
                         >
     
@@ -264,15 +273,27 @@ class ManageDoctor extends Component {
                     </div>
                     <div className='col-4 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.nameClinic"/></label>
-                        <input className='form-control'/>
+                        <input 
+                            className='form-control'
+                            onChange={(event)=>this.handleOnChangeText(event, 'nameClinic')}
+                            value={this.state.nameClinic}
+                        />
                     </div>
                     <div className='col-4 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.addressClinic"/></label>
-                        <input className='form-control'/>
+                        <input 
+                            className='form-control'
+                            onChange={(event)=>this.handleOnChangeText(event, 'addressClinic')}
+                            value={this.state.addressClinic}
+                        />
                     </div>
                     <div className='col-4 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.note"/></label>
-                        <input className='form-control'/>
+                        <input 
+                            className='form-control'
+                            onChange={(event)=>this.handleOnChangeText(event, 'note')}
+                            value={this.state.note}    
+                        />
                     </div>
                 </div>
 
