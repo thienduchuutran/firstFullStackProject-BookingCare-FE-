@@ -162,6 +162,8 @@ class ManageDoctor extends Component {
             selectedDoctor: selectedOption
         });
 
+        let {listPayment, listPrice, listProvince} = this.state
+
         let res = await getDetailInfoDoctor(selectedOption.value)
         
         //checking if doctor already has Markdown data here
@@ -170,11 +172,34 @@ class ManageDoctor extends Component {
 
             //getting doctor info to show on UI
             let addressClinic = '', nameClinic = '', note = '',
-            paymentId = '', priceId = '', provinceId = ''
+            paymentId = '', priceId = '', provinceId = '',
+            selectedPayment = '', selectedPrice = '', selectedProvince = '' //initializing
+
+
             if(res.data.Doctor_Info){
                 addressClinic = res.data.Doctor_Info.addressClinic
                 nameClinic = res.data.Doctor_Info.nameClinic
                 note = res.data.Doctor_Info.note
+
+                paymentId = res.data.Doctor_Info.paymentId              
+                priceId = res.data.Doctor_Info.priceId
+                provinceId = res.data.Doctor_Info.provinceId        //assigning values
+
+                console.log(res.data.Doctor_Info)
+
+                //listPayment here has all the options for payment types
+                selectedPayment = listPayment.find(item=> {
+                    return item && item.value === paymentId
+                }) // this is to get an option under an object type with label and value as keys like {label: 'Credit card', value: 'PAY2'}
+
+                selectedPrice = listPrice.find(item=> {
+                    return item && item.value === priceId
+                })
+
+                selectedProvince = listProvince.find(item=> {
+                    return item && item.value === provinceId
+                })
+
             }
 
             this.setState({
@@ -184,7 +209,10 @@ class ManageDoctor extends Component {
                 hasOldData: true,
                 addressClinic: addressClinic,
                 nameClinic: nameClinic,
-                note: note         
+                note: note,
+                selectedPayment: selectedPayment,
+                selectedPrice: selectedPrice,
+                selectedProvince: selectedProvince
             })
         }
 
@@ -197,7 +225,10 @@ class ManageDoctor extends Component {
                 hasOldData: false,
                 addressClinic: '',
                 nameClinic: '',
-                note: ''  
+                note: '',
+                selectedPayment: '',
+                selectedPrice: '',
+                selectedProvince: '' 
             })
         }
         console.log('check res select: ', res)
