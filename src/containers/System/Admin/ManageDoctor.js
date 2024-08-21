@@ -163,22 +163,41 @@ class ManageDoctor extends Component {
         });
 
         let res = await getDetailInfoDoctor(selectedOption.value)
+        
+        //checking if doctor already has Markdown data here
         if(res && res.errCode === 0 && res.data && res.data.Markdown){
             let markdown = res.data.Markdown
+
+            //getting doctor info to show on UI
+            let addressClinic = '', nameClinic = '', note = '',
+            paymentId = '', priceId = '', provinceId = ''
+            if(res.data.Doctor_Info){
+                addressClinic = res.data.Doctor_Info.addressClinic
+                nameClinic = res.data.Doctor_Info.nameClinic
+                note = res.data.Doctor_Info.note
+            }
 
             this.setState({
                 contentHTML: markdown.contentHTML,
                 contentMarkdown: markdown.contentMarkdown,
                 description: markdown.description, 
-                hasOldData: true               
+                hasOldData: true,
+                addressClinic: addressClinic,
+                nameClinic: nameClinic,
+                note: note         
             })
         }
+
+        //this else means the doctor selected ain't have Markdown data yet, that's when we reset the fields back to blank
         else{
             this.setState({
                 contentHTML: '',
                 contentMarkdown: '',
                 description: '',
-                hasOldData: false
+                hasOldData: false,
+                addressClinic: '',
+                nameClinic: '',
+                note: ''  
             })
         }
         console.log('check res select: ', res)
