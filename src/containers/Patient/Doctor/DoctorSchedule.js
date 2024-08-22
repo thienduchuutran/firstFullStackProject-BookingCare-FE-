@@ -16,7 +16,8 @@ class DoctorSchedule extends Component {
         super(props)
         this.state={
             allDays: [],
-            allAvailableTime: []
+            allAvailableTime: [],
+            isOpenModalBooking: false
         }
     }
 
@@ -93,6 +94,18 @@ class DoctorSchedule extends Component {
         }
     }
     
+    handleClickScheduleTime = (time)=> {
+        this.setState({
+            isOpenModalBooking: true
+        })
+    }
+
+    closeBookingModal = () => {
+        this.setState({
+            isOpenModalBooking: false
+        })
+    }
+
 
 
     render(){  
@@ -108,7 +121,7 @@ class DoctorSchedule extends Component {
         //     })
         // }
 
-        let {allDays, allAvailableTime} = this.state
+        let {allDays, allAvailableTime, isOpenModalBooking} = this.state
         let {language} = this.props
         return (
             <>  
@@ -147,7 +160,13 @@ class DoctorSchedule extends Component {
                                     let timeDisplay = language === LANGUAGES.VI? 
                                     item.timeTypeData.valueVi : item.timeTypeData.valueEn
                                     return(
-                                        <button key={index} className={language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}>{timeDisplay}</button>
+                                        <button 
+                                            key={index} 
+                                            className={language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}
+                                            onClick={()=>this.handleClickScheduleTime(item)}
+                                        >
+                                            {timeDisplay}
+                                        </button>
                                         )
                                     })
                                     }
@@ -165,7 +184,10 @@ class DoctorSchedule extends Component {
                         </div>
                     </div>
                 </div>
-                <BookingModal />
+                <BookingModal 
+                    isOpenModal={isOpenModalBooking}
+                    closeBookingModal={this.closeBookingModal}        
+                />
             </>   
         );
     }

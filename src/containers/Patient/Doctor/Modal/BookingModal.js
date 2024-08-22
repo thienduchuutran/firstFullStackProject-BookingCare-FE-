@@ -27,14 +27,38 @@ class BookingModal extends Component {
     }
 
     render(){ 
+        let {isOpenModal, closeBookingModal} = this.props
         // toggle={}
         return (    
-            <Modal isOpen={true}  centered className={'booking-modal-container'}
+            <Modal 
+                isOpen={isOpenModal}  
+                centered 
+                className={'booking-modal-container'}
                 size='lg'
+
             >
-                <div
-                    style={{height: '100px'}}
-                > inside modal</div>
+                <div className='booking-modal-content'>
+                    <div className='booking-modal-header'>
+                        <span className='left'>
+                            Thong tin dat lich kham benh
+                        </span>
+                        <span 
+                            className='right'
+                            onClick={closeBookingModal}
+                        >
+                            <i className='fas fa-times'></i>
+                        </span>
+                    </div>
+
+                    <div className='booking-modal-body'>
+
+                    </div>
+
+                    <div className='booking-modal-footer'>
+                        <button className='btn-booking-confirm'>Xac nhan</button>
+                        <button className='btn-booking-cancel'>Huy</button>
+                    </div>
+                </div>
             </Modal>
         );
     }
