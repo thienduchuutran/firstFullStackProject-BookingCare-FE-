@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import './DoctorExtra.scss'
 // import Select from 'react-select';
 
-import { getScheduleDoctorByDate } from '../../../services/userService';
+import { getScheduleDoctorByDate, getExtraInfoDoctorById } from '../../../services/userService';
 import { LANGUAGES } from '../../../utils';
 import reactSelect from 'react-select';
 import { FormattedMessage } from 'react-intl';
@@ -13,7 +13,8 @@ class DoctorExtra extends Component {
     constructor(props){
         super(props)
         this.state = {
-            isShowDetailInfo: false
+            isShowDetailInfo: false,
+            extraInfo: {}
         }
     }
 
@@ -26,6 +27,16 @@ class DoctorExtra extends Component {
         if(this.props.language !== prevProps.language){
 
         }
+
+        if(prevProps.doctorIdFromParent !== this.props.doctorIdFromParent){
+            let res = await getExtraInfoDoctorById(this.props.doctorIdFromParent)
+            if(res && res.errCode === 0){
+                this.setState({
+                    extraInfo: res.data
+                })
+            }
+
+        }   
          
     }
     
@@ -37,7 +48,8 @@ class DoctorExtra extends Component {
 
 
     render(){  
-        let {isShowDetailInfo} = this.state
+        let {isShowDetailInfo, extraInfo} = this.state
+
         return (    
             <> 
                 <div className='doctor-extra-info-container'>
@@ -46,17 +58,18 @@ class DoctorExtra extends Component {
                             DIA CHI KHAM
                         </div>
                         <div className='name-clinic'>
-                            PHONG KHAM CHUYEN KHOA DA LIEU
+                            {extraInfo && extraInfo.nameClinic ? extraInfo.nameClinic : ''}
                         </div>
                         <div className='detail-address'>
-                            207 pho hue hai ba trung ha noi
+                            {extraInfo && extraInfo.addressClinic ? extraInfo.addressClinic : ''}
                         </div>
                     </div>
 
                     <div className='content-down'>
                         {isShowDetailInfo === false && 
                             <div className='short-info'>
-                                Gia kham 250k <span onClick={()=> this.showHideDetailInfo()}>xem chi tiet</span>
+                                GIÁ KHÁM: 
+                                {extraInfo && extraInfo.priceTypeData ? extraInfo.priceTypeData.valueVi : ''}<span onClick={()=> this.showHideDetailInfo()}> xem chi tiet</span>
                             </div>                        
                         }
 

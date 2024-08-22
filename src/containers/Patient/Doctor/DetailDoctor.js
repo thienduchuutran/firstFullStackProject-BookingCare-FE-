@@ -12,7 +12,7 @@ class DetailDoctor extends Component {
         super(props)
         this.state={
             detailDoctor: {},
-            currentDoctorId: -1,
+            currentDoctorId: -1,            //this state is pretty important
         }
     }
 
