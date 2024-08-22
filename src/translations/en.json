@@ -72,6 +72,13 @@
             "no-schedule": "The doctor doesn't have an appointment during this day, choose another day",
             "choose": "Choose",
             "book-free": "and book for free"
+        },
+        "extra-info-doctor": {
+            "text-address": "Clinic address",
+            "price": "Price: ",
+            "detail": "See details",
+            "payment": "The patient can pay with: ",
+            "hide-price": "Hide price"
         }
     },
     "admin":{
