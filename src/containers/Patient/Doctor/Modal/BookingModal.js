@@ -65,9 +65,7 @@ class BookingModal extends Component {
                                 doctorId={doctorId}
                             />
                         </div>
-                        <div className='price'>
-                            Gia kham 500k VND
-                        </div>
+
 
                         <div className='row'>
                             <div className='col-6 form-group'>
