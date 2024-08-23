@@ -156,7 +156,6 @@ class ManageSchedule extends Component {
     }
 
     render() {
-        console.log('check state: ', this.state)
         // console.log('check props: ', this.props)
         let {rangeTime} = this.state
         let {language} = this.props

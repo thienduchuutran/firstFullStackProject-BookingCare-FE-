@@ -108,7 +108,6 @@ class ManageDoctor extends Component {
             let dataSelectPayment = this.buildDataInputSelect(resPayment, 'PAYMENT')
             let dataSelectProvince = this.buildDataInputSelect(resProvince, 'PROVINCE')
 
-            console.log('checking: ', dataSelectPrice, dataSelectPayment, dataSelectProvince)
             this.setState({
                 listPrice: dataSelectPrice,
                 listPayment: dataSelectPayment,
@@ -154,7 +153,6 @@ class ManageDoctor extends Component {
             addressClinic: this.state.addressClinic,
             note: this.state.note
         })
-        console.log('checkk state: ', this.state)
     }
 
     handleChangeSelect = async (selectedOption) => {
@@ -185,7 +183,6 @@ class ManageDoctor extends Component {
                 priceId = res.data.Doctor_Info.priceId
                 provinceId = res.data.Doctor_Info.provinceId        //assigning values
 
-                console.log(res.data.Doctor_Info)
 
                 //listPayment here has all the options for payment types
                 selectedPayment = listPayment.find(item=> {
@@ -231,11 +228,9 @@ class ManageDoctor extends Component {
                 selectedProvince: '' 
             })
         }
-        console.log('check res select: ', res)
     };
 
     handleChangeSelectDoctorInfo = async (selectedOption, name) => {
-        console.log('check new select on change: ', selectedOption, name)
 
         let stateName = name.name
         let stateCopy = {...this.state}
@@ -253,7 +248,6 @@ class ManageDoctor extends Component {
     handleOnChangeText = (event, id) => {
         let stateCopy = {...this.state}
         stateCopy[id] = event.target.value
-        console.log('check id: ', id)
         this.setState({
             ...stateCopy
         })
@@ -261,7 +255,6 @@ class ManageDoctor extends Component {
 
     render() {
         let {hasOldData} = this.state
-        console.log('check state: ', this.state)
         return (
             <div className='manage-doctor-container'>
                 <div className='manage-doctor-title'><FormattedMessage id="admin.manage-doctor.title"/></div>

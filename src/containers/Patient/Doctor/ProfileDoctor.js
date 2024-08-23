@@ -52,13 +52,16 @@ class ProfileDoctor extends Component {
     renderTimeBooking = (dataTime) => {
         let {language} = this.props
         if(dataTime && !_.isEmpty(dataTime)){
+            let time = language === LANGUAGES.VI ?
+            dataTime.timeTypeData.valueVi : dataTime.timeTypeData.valueEn
+
             let date = language === LANGUAGES.VI ? 
                 moment.unix(+dataTime.date / 1000).format('dddd - DD/MM/YYYY').toUpperCase() //converting a string to JS date type
                 :
                 moment.unix(+dataTime.date / 1000).locale('en').format('ddd - MM/DD/YYYY')   //the plus sign is to convert from string to integer then divide by 1000 to switch from milliseconds to seconds
             return (
                 <>
-                    <div>4 - 5 pm, {date}</div>
+                    <div>{time}, {date}</div>
                     <div>Mien phi dat lich</div>
                 </>
             )
@@ -76,7 +79,6 @@ class ProfileDoctor extends Component {
             nameEn = `${dataProfile.positionData.valueEn} ${dataProfile.firstName} ${dataProfile.lastName}`
         }
 
-        console.log('check state: ', dataProfile)
         return (    
 
         <div className='profile-doctor-container'>

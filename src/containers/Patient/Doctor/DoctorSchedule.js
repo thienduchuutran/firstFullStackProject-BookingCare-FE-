@@ -85,7 +85,6 @@ class DoctorSchedule extends Component {
             let doctorId = this.props.doctorIdFromParent
             let date = event.target.value
             let res = await getScheduleDoctorByDate(doctorId, date)
-            console.log('check res from react: ', res)
 
             if(res && res.errCode === 0){
                 this.setState({

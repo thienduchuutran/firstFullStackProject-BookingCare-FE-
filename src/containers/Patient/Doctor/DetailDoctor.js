@@ -38,7 +38,6 @@ class DetailDoctor extends Component {
 
     render() {  
         // console.log(this.props.match.params.id)     //this to get the id on the URL 
-        console.log('check state: ', this.state)
         let {language} = this.props
         let {detailDoctor} = this.state
         let nameVi = '', nameEn = ''

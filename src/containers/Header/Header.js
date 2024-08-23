@@ -36,7 +36,6 @@ class Header extends Component {
         this.setState({
             menuApp: menu
         })
-        console.log('check userinfo: ', this.props.userInfo)
     }
     render() {
         const { processLogout, language, userInfo } = this.props;  //this.props is from redux
