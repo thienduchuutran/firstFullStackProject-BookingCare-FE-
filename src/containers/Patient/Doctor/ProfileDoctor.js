@@ -48,16 +48,27 @@ class ProfileDoctor extends Component {
          
     }
 
+    renderTimeBooking = (dataTime) => {
+        return (
+            <>
+                <div>4 - 5 pm, thu 7</div>
+                <div>Mien phi dat lich</div>
+            </>
+        )
+    }
+
     render(){ 
         console.log(this.state)
         let {dataProfile} = this.state
-        let {language} = this.props
+        let {language, isShowDescriptionDoctor, dataTime} = this.props
 
         let nameVi = '', nameEn = ''
         if(dataProfile && dataProfile.positionData){
             nameVi = `${dataProfile.positionData.valueVi} ${dataProfile.lastName} ${dataProfile.firstName}`
             nameEn = `${dataProfile.positionData.valueEn} ${dataProfile.firstName} ${dataProfile.lastName}`
         }
+
+        console.log('check state: ', dataProfile)
         return (    
 
         <div className='profile-doctor-container'>
@@ -71,11 +82,20 @@ class ProfileDoctor extends Component {
                         {language === LANGUAGES.VI? nameVi : nameEn}
                     </div>
                     <div className='down'>
-                        {dataProfile.Markdown && dataProfile.Markdown.description
-                        && <span>
-                            {dataProfile.Markdown.description}
-                        </span>
+                        {isShowDescriptionDoctor === true ?
+                        <>
+                            {dataProfile.Markdown && dataProfile.Markdown.description
+                            && <span>
+                                {dataProfile.Markdown.description}
+                            </span>
+                            }
+                        </>
+                        :
+                        <>
+                            {this.renderTimeBooking()}
+                        </>
                         }
+
                     </div>
                 </div>
             </div>
