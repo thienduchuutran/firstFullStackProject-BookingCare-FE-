@@ -4,9 +4,10 @@ import { FormattedMessage } from 'react-intl';
 import './ProfileDoctor.scss'
 import { getProfileDoctorById } from '../../../services/userService';
 import { LANGUAGES } from '../../../utils';
-import { lang } from 'moment';
+import moment, { lang } from 'moment';
 import DoctorExtra from './DoctorExtra';
 import NumberFormat from 'react-number-format';
+import _ from 'lodash';
 
 class ProfileDoctor extends Component {
     constructor(props){
@@ -49,18 +50,25 @@ class ProfileDoctor extends Component {
     }
 
     renderTimeBooking = (dataTime) => {
-        return (
-            <>
-                <div>4 - 5 pm, thu 7</div>
-                <div>Mien phi dat lich</div>
-            </>
-        )
+        let {language} = this.props
+        if(dataTime && !_.isEmpty(dataTime)){
+            let date = language === LANGUAGES.VI ? 
+                moment.unix(+dataTime.date / 1000).format('dddd - DD/MM/YYYY').toUpperCase() //converting a string to JS date type
+                :
+                moment.unix(+dataTime.date / 1000).locale('en').format('ddd - MM/DD/YYYY')   //the plus sign is to convert from string to integer then divide by 1000 to switch from milliseconds to seconds
+            return (
+                <>
+                    <div>4 - 5 pm, {date}</div>
+                    <div>Mien phi dat lich</div>
+                </>
+            )
+        }
     }
 
     render(){ 
-        console.log(this.state)
         let {dataProfile} = this.state
         let {language, isShowDescriptionDoctor, dataTime} = this.props
+
 
         let nameVi = '', nameEn = ''
         if(dataProfile && dataProfile.positionData){
@@ -92,7 +100,7 @@ class ProfileDoctor extends Component {
                         </>
                         :
                         <>
-                            {this.renderTimeBooking()}
+                            {this.renderTimeBooking(dataTime)}
                         </>
                         }
 
