@@ -5,6 +5,7 @@ import './BookingModal.scss'
 import {  Modal } from 'reactstrap';
 import ProfileDoctor from '../ProfileDoctor';
 import _ from 'lodash';
+import DatePicker from '../../../../components/Input/DatePicker';
 
 
 
@@ -12,6 +13,14 @@ class BookingModal extends Component {
     constructor(props){
         super(props)
         this.state = {
+            fullName: '',
+            phoneNumber: '',
+            email: '',
+            address: '',
+            reason: '',
+            birthday: '',
+            gender: '',
+            doctorId: ''
         }
     }
 
@@ -27,6 +36,21 @@ class BookingModal extends Component {
          
     }
 
+    handleOnChangeInput = (event, id)=> {
+        let valueInput = event.target.value 
+        let stateCopy = {...this.state}
+        stateCopy[id] = valueInput
+        this.setState({
+            ...stateCopy
+        })
+    }
+
+    handleOnchangeDatePicker = (date)=> {
+        this.setState({
+            birthday: date[0]
+        })
+    }
+
     render(){ 
         let {isOpenModal, closeBookingModal, dataTime} = this.props
         let doctorId = ''
@@ -35,8 +59,7 @@ class BookingModal extends Component {
         }
         // let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : ''
 
-
-        // toggle={}
+        console.log('check state: ', this.state)
         return (    
             <Modal 
                 isOpen={isOpenModal}  
@@ -72,37 +95,66 @@ class BookingModal extends Component {
                         <div className='row'>
                             <div className='col-6 form-group'>
                                 <label>Ho ten</label>
-                                <input className='form-control'/>
+                                <input 
+                                    className='form-control'
+                                    value={this.state.fullName}   
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'fullName')} 
+                                />
                             </div>
 
                             <div className='col-6 form-group'>
                                 <label>So dien thoai</label>
-                                <input className='form-control'/>
+                                <input 
+                                    className='form-control'
+                                    value={this.state.phoneNumber}   
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'phoneNumber')}                                     
+                                />
                             </div>
 
                             <div className='col-6 form-group'>
                                 <label>Dia chi email</label>
-                                <input className='form-control'/>
+                                <input 
+                                    className='form-control'
+                                    value={this.state.email}   
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'email')}                                     
+                                />
                             </div>
 
                             <div className='col-6 form-group'>
                                 <label>Dia chi lien he</label>
-                                <input className='form-control'/>
+                                <input 
+                                    className='form-control'
+                                    value={this.state.address}   
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'address')}                                     
+                                />
                             </div>
 
                             <div className=' col-12 form-group'>
                                 <label>Ly do kham</label>
-                                <input className='form-control'/>
+                                <input 
+                                    className='form-control'
+                                    value={this.state.reason}   
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'reason')}                                     
+                                />
                             </div>
 
                             <div className='col-6 form-group'>
-                                <label>Dat cho ai</label>
-                                <input className='form-control'/>
+                                <label>Ngay sinh</label>
+                                <DatePicker
+                                        onChange={this.handleOnchangeDatePicker}
+                                        className='form-control'
+                                        value={this.state.currentDate}
+                                        // selected={this.state.currentDate}
+                                    />
                             </div>
 
                             <div className='col-6 form-group'>
                                 <label>Gioi tinh</label>
-                                <input className='form-control'/>
+                                <input 
+                                    className='form-control'
+                                    value={this.state.gender}   
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'fullName')}                                     
+                                />
                             </div>
                         </div>
                     </div>
