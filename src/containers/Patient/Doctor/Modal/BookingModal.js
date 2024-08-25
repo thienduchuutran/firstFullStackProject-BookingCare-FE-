@@ -4,11 +4,13 @@ import { FormattedMessage } from 'react-intl';
 import './BookingModal.scss'
 import {  Modal } from 'reactstrap';
 import ProfileDoctor from '../ProfileDoctor';
-import _ from 'lodash';
+import _, { times } from 'lodash';
 import DatePicker from '../../../../components/Input/DatePicker';
 import * as actions from '../../../../store/actions'
 import { LANGUAGES } from '../../../../utils';
 import Select from 'react-select'
+import { postPatientBookAppointment } from '../../../../services/userService';
+import { toast } from 'react-toastify';
 
 
 class BookingModal extends Component {
@@ -24,6 +26,7 @@ class BookingModal extends Component {
             selectedGender: '',
             doctorId: '',
             genders: '',
+            timeType: ''
         }
     }
 
@@ -66,8 +69,10 @@ class BookingModal extends Component {
         if(this.props.dataTime !== prevProps.dataTime){
             if(this.props.dataTime && !_.isEmpty(this.props.dataTime)){
                 let doctorId = this.props.dataTime.doctorId
+                let timeType = this.props.dataTime.timeType
                 this.setState({
-                    doctorId: doctorId
+                    doctorId: doctorId,
+                    timeType: timeType
                 })
             }            
         }
@@ -93,8 +98,29 @@ class BookingModal extends Component {
         this.setState({selectedGender: selectedOption})
     }
 
-    handleConfirmBooking = () => {
-        console.log('check state: ', this.state)
+    handleConfirmBooking = async() => {
+        //validate input
+
+        let date = new Date(this.state.birthday).getTime()  //this getTime() is converting the timestamp from javascript type to unix string
+        let res = await postPatientBookAppointment({
+            fullName: this.state.fullName,
+            phoneNumber: this.state.phoneNumber,
+            email: this.state.email,
+            address: this.state.address,
+            reason: this.state.reason,
+            date: date,
+            selectedGender: this.state.selectedGender.value,
+            doctorId: this.state.doctorId,
+            timeType: this.state.timeType
+        })
+
+        if(res && res.errCode === 0){
+            toast.success('Appointment booked!')
+            this.props.closeBookingModal()
+        }else{
+            toast.error('Booking failed...')
+        }
+
     }
     render(){ 
         let {isOpenModal, closeBookingModal, dataTime} = this.props
