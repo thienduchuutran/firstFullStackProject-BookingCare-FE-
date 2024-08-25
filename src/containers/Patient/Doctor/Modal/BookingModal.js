@@ -105,6 +105,7 @@ class BookingModal extends Component {
         let date = new Date(this.state.birthday).getTime()  //this getTime() is converting the timestamp from javascript type to unix string
         
         let timeString = this.buildTimeBooking(this.props.dataTime)
+        let doctorName = this.buildDoctorName(this.props.dataTime)
         let res = await postPatientBookAppointment({
             fullName: this.state.fullName,
             phoneNumber: this.state.phoneNumber,
@@ -116,7 +117,8 @@ class BookingModal extends Component {
             doctorId: this.state.doctorId,
             timeType: this.state.timeType,
             language: this.props.language,
-            timeString: timeString
+            timeString: timeString,
+            doctorName: doctorName
         })
 
         if(res && res.errCode === 0){
@@ -144,6 +146,18 @@ class BookingModal extends Component {
         return ``
     }
 
+    buildDoctorName = (dataTime) => {
+        let {language} = this.props
+        if(dataTime && !_.isEmpty(dataTime)){
+            let name = language === LANGUAGES.VI ? `${dataTime.doctorData.lastName} ${dataTime.doctorData.firstName}`
+            :
+            `${dataTime.doctorData.firstName} ${dataTime.doctorData.lastName}`
+                
+                return name
+        }
+        return ``        
+    }
+
     render(){ 
         let {isOpenModal, closeBookingModal, dataTime} = this.props
         let doctorId = ''
@@ -152,6 +166,7 @@ class BookingModal extends Component {
         }
         // let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : ''
 
+        console.log('check data time: ', dataTime)
         return (    
             <Modal 
                 isOpen={isOpenModal}  
