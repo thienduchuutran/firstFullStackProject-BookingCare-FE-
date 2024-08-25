@@ -79,6 +79,19 @@
             "detail": "See details",
             "payment": "The patient can pay with: ",
             "hide-price": "Hide price"
+        },
+        "booking-modal":{
+            "title": "Booking an appointment",
+            "fullName": "Full name",
+            "phoneNumber": "Phone number",
+            "email": "Email address",
+            "address": "Address",
+            "reason": "Reason",
+            "birthday": "Date of birth",
+            "gender": "Gender",
+            "confirm": "Confirm",
+            "cancel": "Cancel",
+            "price-booking": "Free booking"
         }
     },
     "admin":{
