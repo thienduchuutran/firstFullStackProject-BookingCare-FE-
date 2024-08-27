@@ -29,7 +29,7 @@ class VerifyEmail extends Component {
 
             if(res && res.errCode === 0){
                 this.setState({
-                    statusVerify: true,
+                    statusVerify: true,         //means no longer have to wait  
                     errCode: res.errCode
                 })
             }else{
@@ -60,7 +60,6 @@ class VerifyEmail extends Component {
             <HomeHeader/>
             <div className='verify-email-container'>
 
-            
             {statusVerify === false ?
                 <div>Loading data...</div>
                 :
@@ -70,7 +69,7 @@ class VerifyEmail extends Component {
                         Xac nhan lich hen thanh cong
                     </div>
                     :
-                    <div className='info-booking'>
+                    <div className='info-booking'>          
                         Lich hen khong ton tai hoac da duoc xac nhan
                     </div>}
                 </div>
