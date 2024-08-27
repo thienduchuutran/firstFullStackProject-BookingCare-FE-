@@ -12,7 +12,15 @@ class VerifyEmail extends Component {
     }
 
     async componentDidMount(){
+        if(this.props.location && this.props.location.search){
+            //get query string
+            let urlParams = new URLSearchParams(this.props.location.search);
+            let token = urlParams.get('token');
+            let doctorId = urlParams.get('doctorId');
+        }
 
+        if(this.props.match && this.props.match.params && this.props.match.params.id){
+        }
     }
 
 
