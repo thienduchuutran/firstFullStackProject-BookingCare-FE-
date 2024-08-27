@@ -5,6 +5,8 @@ import './ManageSpecialty.scss'
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import { CommonUtils } from '../../../utils';
+import {toast} from "react-toastify"
+import { createNewSpecialty } from '../../../services/userService';
 
 
 
@@ -60,8 +62,22 @@ class ManageSpecialty extends Component {
          
     }
 
-    handleSaveNewSpecialty =() => {
-        console.log('check state: ', this.state)
+    handleSaveNewSpecialty = async() => {
+        let res = await createNewSpecialty(this.state)
+        console.log(res)
+        if(res && res.errCode === 0){
+            toast.success("add new specialty successfully")
+            this.setState({
+                name: '',
+                imageBase64: '',
+                descriptionHTML: '',
+                descriptionMarkdown: ''                
+            })
+        }else{
+            toast.error("somthing wrong try again")
+            console.log('check error: ', res)
+
+        }
     }
 
     render(){ 

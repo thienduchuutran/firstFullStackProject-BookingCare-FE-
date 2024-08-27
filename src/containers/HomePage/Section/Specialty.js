@@ -27,26 +27,7 @@ class Specialty extends Component {
                                 <div className='bg-image section-specialty'></div>
                                 <div>Cơ xương khớp 1</div>
                             </div>
-                            <div className='section-customize'>
-                                <div className='bg-image section-specialty'></div>
-                                <div>Cơ xương khớp 1</div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='bg-image section-specialty'></div>
-                                <div>Cơ xương khớp 1</div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='bg-image section-specialty'></div>
-                                <div>Cơ xương khớp 1</div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='bg-image section-specialty'></div>
-                                <div>Cơ xương khớp 1</div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='bg-image section-specialty'></div>
-                                <div>Cơ xương khớp 1</div>
-                            </div>
+
                         </Slider>
                     </div>
 
