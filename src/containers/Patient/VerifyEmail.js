@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
+import { postVerifyBookAppointment } from '../../services/userService';
 
 
 
@@ -8,6 +9,7 @@ class VerifyEmail extends Component {
     constructor(props){
         super(props)
         this.state = {
+            statusVerify: false
         }
     }
 
@@ -17,6 +19,18 @@ class VerifyEmail extends Component {
             let urlParams = new URLSearchParams(this.props.location.search);
             let token = urlParams.get('token');
             let doctorId = urlParams.get('doctorId');
+            let res = await postVerifyBookAppointment({
+                token: token,
+                doctorId: doctorId
+            })
+
+            if(res && res.errCode === 0){
+                this.setState({
+                    statusVerify: true
+                })
+            }else{
+
+            }
         }
 
         if(this.props.match && this.props.match.params && this.props.match.params.id){
