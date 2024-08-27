@@ -60,6 +60,10 @@ class ManageSpecialty extends Component {
          
     }
 
+    handleSaveNewSpecialty =() => {
+        console.log('check state: ', this.state)
+    }
+
     render(){ 
 
         return (    
@@ -92,7 +96,8 @@ class ManageSpecialty extends Component {
                     />
                     </div>
                     <div className='col-12'>
-                        <button className='btn-save-specialty'>Save</button>
+                        <button className='btn-save-specialty'
+                                onClick={()=>this.handleSaveNewSpecialty()}>Save</button>
                     </div>
                 </div>
 
