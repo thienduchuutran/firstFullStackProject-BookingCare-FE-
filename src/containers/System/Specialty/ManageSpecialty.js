@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import './ManageSpecialty.scss'
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 
 class ManageSpecialty extends Component {
@@ -32,11 +35,31 @@ class ManageSpecialty extends Component {
                     Quan ly chuyen khoa
                 </div>
                 <div className='btn-add-new-specialty'>
-                    <button>Add new</button>
-                </div>
-                <div className='all-specialty'>
 
                 </div>
+                <div className='add-new-specialty row'>
+                    <div className='col-6 form-group'>
+                        <label>Ten chuyen khoa</label>
+                        <input className='form-control' type='text'/>
+                    </div>
+                    <div className='col-6 form-group'>
+                        <label>Anh chuyen khoa</label>
+                        <input className='form-control-file' type='file'/>
+                    </div>
+                    <div className='col-12'>
+                    <MdEditor 
+                        style={{ height: '300px' }} 
+                        renderHTML={text => mdParser.render(text)} 
+                        // onChange={this.handleEditorChange}       
+                        // value={this.state.contentMarkdown}
+                    />
+                    </div>
+                    <div className='col-12'>
+                        <button className='btn-save-specialty'>Save</button>
+                    </div>
+                </div>
+
+
             </div>
             </>   
         );

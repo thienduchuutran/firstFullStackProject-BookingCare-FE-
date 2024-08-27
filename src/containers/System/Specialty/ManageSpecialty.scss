@@ -8,11 +8,16 @@
         font-weight: 600;
     }
 
-    .btn-add-new-specialty{
+    .add-new-specialty{
 
-    }
 
-    .all-specialty{
-
+        .btn-save-specialty{
+            border: none;
+            background: orange;
+            border-radius: 10px;
+            padding: 8px 5px;
+            min-width: 75px;
+            margin: 15px 0;
+        }
     }
 }
