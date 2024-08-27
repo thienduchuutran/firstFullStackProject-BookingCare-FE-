@@ -4,13 +4,20 @@ import { FormattedMessage } from 'react-intl';
 import './ManageSpecialty.scss'
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
-const mdParser = new MarkdownIt(/* Markdown-it options */);
+import { CommonUtils } from '../../../utils';
 
+
+
+const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageSpecialty extends Component {
     constructor(props){
         super(props)
         this.state = {
+            name: '',
+            imageBase64: '',
+            descriptionHTML: '',
+            descriptionMarkdown: ''
         }
     }
 
@@ -23,6 +30,33 @@ class ManageSpecialty extends Component {
         if(this.props.language !== prevProps.language){
 
         }  
+         
+    }
+    handleOnChangeInput = (event, id) => {
+        let stateCopy = {...this.state}
+        stateCopy[id] = event.target.value
+        this.setState({
+            ...stateCopy
+        })
+
+    }
+
+    handleEditorChange = ({ html, text }) => {
+        this.setState({                        
+            descriptionHTML: html,
+            descriptionMarkdown: text
+        })
+    }
+
+    handleOnchangeImage = async (event)=>{
+        let data = event.target.files
+        let file = data[0]
+        if(file){
+            let base64 = await CommonUtils.getBase64(file)      //encoding the image into base64
+            this.setState({
+                imageBase64: base64
+            })
+        }
          
     }
 
@@ -40,18 +74,21 @@ class ManageSpecialty extends Component {
                 <div className='add-new-specialty row'>
                     <div className='col-6 form-group'>
                         <label>Ten chuyen khoa</label>
-                        <input className='form-control' type='text'/>
+                        <input className='form-control' type='text' value={this.state.name}
+                        onChange={(event)=>this.handleOnChangeInput(event, 'name')}/>
                     </div>
                     <div className='col-6 form-group'>
                         <label>Anh chuyen khoa</label>
-                        <input className='form-control-file' type='file'/>
+                        <input className='form-control-file' type='file'
+                            onChange={(event)=>this.handleOnchangeImage(event)}
+                        />
                     </div>
                     <div className='col-12'>
                     <MdEditor 
                         style={{ height: '300px' }} 
                         renderHTML={text => mdParser.render(text)} 
-                        // onChange={this.handleEditorChange}       
-                        // value={this.state.contentMarkdown}
+                        onChange={this.handleEditorChange}       
+                        value={this.state.descriptionMarkdown}
                     />
                     </div>
                     <div className='col-12'>
