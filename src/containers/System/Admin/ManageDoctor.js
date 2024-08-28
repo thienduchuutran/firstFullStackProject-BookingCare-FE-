@@ -40,12 +40,21 @@ class ManageDoctor extends Component {
             listPrice: [],
             listPayment: [],
             listProvince: [],
+            listClinic: [],
+            listSpecialty: [],
+
             selectedPrice: '', //this is to pass down to db
             selectedPayment: '',
             selectedProvince: '',
+            selectedClinic: '',
+            selectedSpecialty: '',
             nameClinic: '',
             addressClinic: '',
-            note: ''
+            note: '',
+
+            clinicId: '',
+            specialtyId: '',
+
             
         }
     }
@@ -89,6 +98,14 @@ class ManageDoctor extends Component {
                     result.push(object)
                 })
             }
+            if(type==="SPECIALTY"){
+                inputData.map((item, index) => {
+                    let object = {}
+                    object.label = item.name
+                    object.value = item.id
+                    result.push(object)
+                })                
+            }
             
         }
         return result
@@ -103,15 +120,17 @@ class ManageDoctor extends Component {
         }
 
         if(prevProps.allRequiredDoctorInfo !== this.props.allRequiredDoctorInfo){
-            let {resPrice, resPayment, resProvince } = this.props.allRequiredDoctorInfo
+            let {resPrice, resPayment, resProvince, resSpecialty } = this.props.allRequiredDoctorInfo
             let dataSelectPrice = this.buildDataInputSelect(resPrice, 'PRICE')
             let dataSelectPayment = this.buildDataInputSelect(resPayment, 'PAYMENT')
             let dataSelectProvince = this.buildDataInputSelect(resProvince, 'PROVINCE')
+            let dataSelectSpecialty = this.buildDataInputSelect(resSpecialty, 'SPECIALTY')
 
             this.setState({
                 listPrice: dataSelectPrice,
                 listPayment: dataSelectPayment,
-                listProvince: dataSelectProvince,                
+                listProvince: dataSelectProvince,   
+                listSpecialty: dataSelectSpecialty             
             })
         }
 
@@ -254,7 +273,7 @@ class ManageDoctor extends Component {
     }
 
     render() {
-        let {hasOldData} = this.state
+        let {hasOldData, listSpecialty} = this.state
         return (
             <div className='manage-doctor-container'>
                 <div className='manage-doctor-title'><FormattedMessage id="admin.manage-doctor.title"/></div>
@@ -339,7 +358,22 @@ class ManageDoctor extends Component {
                         />
                     </div>
                 </div>
-
+                <div className='row'>
+                    <div className='col-4 form-group'>
+                        <label>Chon chuyen khoa</label>
+                        <Select
+                            // value={this.state.selectedOption}
+                            // onChange={this.handleChangeSelectDoctorInfo}
+                            options={this.state.listSpecialty}
+                            placeholder={<FormattedMessage id="admin.manage-doctor.province"/>}
+                            name="selectedProvince"
+                        />
+                    </div>
+                    <div className='col-4 form-group'>
+                        <label>Chon phong kham</label>
+                        <input className='form-control'/>
+                    </div>
+                </div>
                 <div className='manage-doctor-editor'>
                     <MdEditor 
                         style={{ height: '500px' }} 
