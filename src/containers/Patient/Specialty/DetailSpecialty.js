@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import './DetailSpecialty.scss'
 import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
+import DoctorExtra from '../Doctor/DoctorExtra';
 
 
 
@@ -12,7 +13,7 @@ class DefaultClass extends Component {
     constructor(props){
         super(props)
         this.state = {
-            arrDoctorId: [10, 9 , 8]
+            arrDoctorId: [10, 9 , 8]    //this is to be passed into DoctorScedule component to render schedule for each doctor
         }
     }
 
@@ -44,10 +45,19 @@ class DefaultClass extends Component {
 
                         </div>
                         <div className='content-right'>
+                            <div className='doctor-schedule'>
                             <DoctorSchedule
                                 doctorIdFromParent={item}
                                 
                             />
+                            </div>
+
+                            <div className='doctor-extra-info'>
+                            <DoctorExtra
+                                doctorIdFromParent={item}
+                            />
+                            </div>
+
                         </div>
                     </div>
 

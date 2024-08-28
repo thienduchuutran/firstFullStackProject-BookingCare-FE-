@@ -20,6 +20,17 @@ class DoctorExtra extends Component {
     }
 
     async componentDidMount(){
+        if(this.props.doctorIdFromParent){
+        //we need this here for DetailSpecialty, since that component will have doctorIds from the beginning, so componentDidUpdate 
+        //won't detect after clicking in individual doctor, resulting in the doctor's extra info not being rendered
+        let res = await getExtraInfoDoctorById(this.props.doctorIdFromParent)
+        if(res && res.errCode === 0){
+            this.setState({
+                extraInfo: res.data
+            })
+        }
+        }
+
 
     }
 
