@@ -48,10 +48,23 @@ class DefaultClass extends Component {
                         })                                   // render doctors based on specialty using doctor id
                     }
                 }
+
+                let dataProvince = resProvince.data
+                let result = []
+                if(dataProvince && dataProvince.length > 0){
+                    dataProvince.unshift({
+                        createdAt: null,
+                        keyMap: "ALL",
+                        type: "PROVINCE",
+                        valueEn: "National",
+                        valueVi: "Toàn quốc"
+                    })
+                }
+
                 this.setState({
                     dataDetailSpecialty: res.data,
                     arrDoctorId: arrDoctorId,
-                    listProvince: resProvince.data
+                    listProvince: dataProvince ? dataProvince : []
                 })
             }
         }
