@@ -29,9 +29,21 @@ class DoctorSchedule extends Component {
         // console.log('moment eng: ', moment(new Date()).locale('en').format('ddd - DD/MM'))      //since we imported localization, now it prioritizes viet, so
         //                                                                                         //if we wanna switch back to english, gotta use locale('en')
         let allDays = this.getArrDays(language)
+
+        if(this.props.doctorIdFromParent){
+            let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value)
             this.setState({
-                allDays: allDays,
+                allAvailableTime: res.data ? res.data : []
             })
+        }
+
+
+
+        this.setState({
+            allDays: allDays,
+        })
+
+
     }
 
     //doing this so it looks clean in componentDidMount and componentDidUpdate
