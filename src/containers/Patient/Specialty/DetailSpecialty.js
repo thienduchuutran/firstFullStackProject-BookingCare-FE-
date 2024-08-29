@@ -6,7 +6,8 @@ import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtra from '../Doctor/DoctorExtra';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
-
+import { getAllDetailSpecialtyById } from '../../../services/userService';
+import _ from 'lodash';
 
 
 
@@ -14,12 +15,26 @@ class DefaultClass extends Component {
     constructor(props){
         super(props)
         this.state = {
-            arrDoctorId: [10, 9 , 8]    //this is to be passed into DoctorScedule component to render schedule for each doctor
+            arrDoctorId: [10, 9 , 8],    //this is to be passed into DoctorScedule component to render schedule for each doctor
+            dataDetailSpecialty: []
         }
     }
 
     async componentDidMount(){
+        if(this.props.match && this.props.match.params && this.props.match.params.id){
+            let id = this.props.match.params.id            //this is getting whatever id on the URL of the page
 
+            let res = await getAllDetailSpecialtyById({
+                id: id,
+                location: 'ALL'
+            })
+
+            if(res && res.errCode === 0){
+                this.setState({
+                    dataDetailSpecialty: res.data,
+                })
+            }
+        }
     }
 
 
@@ -31,12 +46,19 @@ class DefaultClass extends Component {
     }
 
     render(){ 
-        let {arrDoctorId} = this.state
+        let {arrDoctorId, dataDetailSpecialty} = this.state
+        console.log('check state: ', this.state)
         return (    
             <div className='detail-specialty-container'> 
             <HomeHeader/>
                 <div className='detail-specialty-body'>
                     <div className='description-specialty'>
+                        {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty)
+                        &&
+                        <div dangerouslySetInnerHTML={{__html: dataDetailSpecialty.descriptionHTML}}>
+                                
+                        </div>
+                        }
                         
                     </div>
                     {arrDoctorId && arrDoctorId.length > 0 &&
