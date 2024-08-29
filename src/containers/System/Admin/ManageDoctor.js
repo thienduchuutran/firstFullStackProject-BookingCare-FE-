@@ -182,7 +182,7 @@ class ManageDoctor extends Component {
             selectedDoctor: selectedOption
         });
 
-        let {listPayment, listPrice, listProvince} = this.state
+        let {listPayment, listPrice, listProvince, listSpecialty} = this.state
 
         let res = await getDetailInfoDoctor(selectedOption.value)
         
@@ -193,6 +193,7 @@ class ManageDoctor extends Component {
             //getting doctor info to show on UI
             let addressClinic = '', nameClinic = '', note = '',
             paymentId = '', priceId = '', provinceId = '',
+            selectedSpecialty = '', specialtyId = '',
             selectedPayment = '', selectedPrice = '', selectedProvince = '' //initializing
 
 
@@ -204,7 +205,7 @@ class ManageDoctor extends Component {
                 paymentId = res.data.Doctor_Info.paymentId              
                 priceId = res.data.Doctor_Info.priceId
                 provinceId = res.data.Doctor_Info.provinceId        //assigning values
-
+                specialtyId = res.data.Doctor_Info.specialtyId
 
                 //listPayment here has all the options for payment types
                 selectedPayment = listPayment.find(item=> {
@@ -219,8 +220,12 @@ class ManageDoctor extends Component {
                     return item && item.value === provinceId
                 })
 
-            }
+                selectedSpecialty = listSpecialty.find(item => {
+                    return item && item.value === specialtyId
+                })
 
+            }
+            //asigning values right after retrieving from getDetailInfoDoctor
             this.setState({
                 contentHTML: markdown.contentHTML,
                 contentMarkdown: markdown.contentMarkdown,
@@ -231,7 +236,8 @@ class ManageDoctor extends Component {
                 note: note,
                 selectedPayment: selectedPayment,
                 selectedPrice: selectedPrice,
-                selectedProvince: selectedProvince
+                selectedProvince: selectedProvince,
+                selectedSpecialty: selectedSpecialty
             })
         }
 
@@ -247,7 +253,8 @@ class ManageDoctor extends Component {
                 note: '',
                 selectedPayment: '',
                 selectedPrice: '',
-                selectedProvince: '' 
+                selectedProvince: '',
+                selectedSpecialty: ''
             })
         }
     };
