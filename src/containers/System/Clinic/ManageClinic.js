@@ -6,7 +6,7 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import { CommonUtils } from '../../../utils';
 import {toast} from "react-toastify"
-import { createNewSpecialty } from '../../../services/userService';
+import { createNewClinic } from '../../../services/userService';
 
 
 
@@ -64,20 +64,21 @@ class ManageClinic extends Component {
     }
 
     handleSaveNewClinic = async() => {
-        // let res = await createNewSpecialty(this.state)
-        // if(res && res.errCode === 0){
-        //     toast.success("add new specialty successfully")
-        //     this.setState({
-        //         name: '',
-        //         imageBase64: '',
-        //         descriptionHTML: '',
-        //         descriptionMarkdown: ''                
-        //     })
-        // }else{
-        //     toast.error("somthing wrong try again")
-        //     console.log('check error: ', res)
+        let res = await createNewClinic(this.state)
+        if(res && res.errCode === 0){
+            toast.success("add new clinic successfully")
+            this.setState({
+                name: '',
+                address: '',
+                imageBase64: '',
+                descriptionHTML: '',
+                descriptionMarkdown: ''                
+            })
+        }else{
+            toast.error("somthing wrong try again")
+            console.log('check error: ', res)
 
-        // }
+        }
     }
 
     render(){ 
