@@ -118,6 +118,7 @@ class DefaultClass extends Component {
     render(){ 
         let {arrDoctorId, dataDetailSpecialty, listProvince} = this.state
         let {language} = this.props
+        console.log('state: ', this.state)
         return (    
             <div className='detail-specialty-container'> 
             <HomeHeader/>
@@ -153,8 +154,12 @@ class DefaultClass extends Component {
                                         <ProfileDoctor
                                             doctorId={item}
                                             isShowDescriptionDoctor={true}
+                                            isShowLinkDetail={true}
+                                            isShowPrice={false}
                                             // dataTime={dataTime}
                                         />
+
+                                        {/* {dataDetailSpecialty.doctorSpecialty[0].provinceId} */}
                                     </div>
 
                                 </div>
