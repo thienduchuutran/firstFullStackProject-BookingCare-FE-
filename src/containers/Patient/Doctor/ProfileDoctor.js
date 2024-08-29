@@ -8,6 +8,7 @@ import moment, { lang } from 'moment';
 import DoctorExtra from './DoctorExtra';
 import NumberFormat from 'react-number-format';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
 class ProfileDoctor extends Component {
     constructor(props){
@@ -44,7 +45,10 @@ class ProfileDoctor extends Component {
         }
         
         if(this.props.doctorId !== prevProps.doctorId){
-            this.getInfoDoctor(this.props.doctorId)
+            let data = await this.getInforDoctor(this.props.doctorId);
+            this.setState({
+              dataProfile: data,
+            });
         }
          
     }
@@ -70,7 +74,7 @@ class ProfileDoctor extends Component {
 
     render(){ 
         let {dataProfile} = this.state
-        let {language, isShowDescriptionDoctor, dataTime, isShowPrice, isShowLinkDetail} = this.props
+        let {language, isShowDescriptionDoctor, dataTime, isShowPrice, isShowLinkDetail, doctorId} = this.props
 
 
         let nameVi = '', nameEn = ''
@@ -109,7 +113,11 @@ class ProfileDoctor extends Component {
                     </div>
                 </div>
             </div>
-            {isShowLinkDetail === true && <div>Xem thêm</div>}
+            {isShowLinkDetail === true && 
+            <div className='view-detail-doctor'
+            >
+                <Link to={`/detail-doctor/${doctorId}`}>Xem thêm</Link>
+            </div>}
 
             {isShowPrice && 
             <div className='price'>
