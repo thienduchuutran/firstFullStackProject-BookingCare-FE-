@@ -70,6 +70,9 @@ class DefaultClass extends Component {
         }
     }
 
+    getDataDetailSpecialty = () => {
+
+    }
 
     async componentDidUpdate(prevProps, prevState, snapshot){                 //gotta run again in the componentDidUpdate() since it's gonna keep running 
         if(this.props.language !== prevProps.language){
@@ -78,9 +81,39 @@ class DefaultClass extends Component {
          
     }
 
-    handleOnChangeSelect = (event) =>  {
-        console.log('check onchange event: ', event.target.value)
+    //this is to determine what province id the user just clicks on
+    handleOnChangeSelect = async (event) =>  {
+        //this is to get the prop (id) on URL which is the id of the specialty
+        if(this.props.match && this.props.match.params && this.props.match.params.id){
+            let id = this.props.match.params.id
+            let location = event.target.value   //this is province Id
+
+            let res = await getAllDetailSpecialtyById({
+                id: id,
+                location: location
+            })  
+
+            if(res && res.errCode === 0){
+                let data = res.data
+                let arrDoctorId = []
+                //dynamically getting doctors list
+                if(data && !_.isEmpty(res.data)){
+                    let arr = data.doctorSpecialty
+                    if(arr && arr.length > 0){
+                        arr.map(item => {
+                            arrDoctorId.push(item.doctorId) //pushing each doctorId into arrDoctorId since from arrDoctorId we dynamically
+                        })                                   // render doctors based on specialty using doctor id
+                    }
+                }
+                
+                //updating the state arrDoctorId based on location
+                this.setState({
+                    dataDetailSpecialty: res.data,
+                    arrDoctorId: arrDoctorId,
+                })
+            }
     }
+}
 
     render(){ 
         let {arrDoctorId, dataDetailSpecialty, listProvince} = this.state
