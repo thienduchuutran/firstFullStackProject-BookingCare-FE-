@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
-import './DetailSpecialty.scss'
+import './DetailClinic.scss'
 import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtra from '../Doctor/DoctorExtra';
@@ -13,7 +13,7 @@ import { LANGUAGES } from '../../../utils';
 
 
 
-class DetailSpecialty extends Component {
+class DetailClinic extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -199,4 +199,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailClinic);

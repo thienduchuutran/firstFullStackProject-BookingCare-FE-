@@ -23,11 +23,12 @@ class MedicalFacility extends Component {
                 dataClinics: res.data? res.data : []
             })
         }
-        console.log('check res: ', res)
     }
 
     handleViewDetailClinic = (clinic) => {
-        alert('click me')
+        if(this.props.history){
+            this.props.history.push(`/detail-clinic/${clinic.id}`)       //this is to get the current page move into our desire link
+        }
     }
 
     render() {
@@ -48,7 +49,7 @@ class MedicalFacility extends Component {
                             && dataClinics.map((item, index)=>{
                                 return(
                                     <div 
-                                        className='section-customize' 
+                                        className='section-customize clinic-child' 
                                         key={index}
                                         onClick={()=> this.handleViewDetailClinic(item)}    //this item param means we passing clinic info into the handling function
                                     >
@@ -56,7 +57,7 @@ class MedicalFacility extends Component {
                                             className='bg-image section-medical-facility'
                                             style={{backgroundImage: `url(${item.image})`}}
                                         ></div>
-                                        <div>{item.name}</div>
+                                        <div className='clinic-name'>{item.name}</div>
                                     </div>
                                 )
 
