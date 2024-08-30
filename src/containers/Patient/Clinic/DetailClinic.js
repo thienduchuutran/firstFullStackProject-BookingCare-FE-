@@ -38,7 +38,7 @@ class DetailClinic extends Component {
                 let arrDoctorId = []
                 //dynamically loading doctors list
                 if(data && !_.isEmpty(res.data)){
-                    let arr = data.doctorSpecialty
+                    let arr = data.doctorClinic
                     if(arr && arr.length > 0){
                         arr.map(item => {
                             arrDoctorId.push(item.doctorId) //pushing each doctorId into arrDoctorId since from arrDoctorId we dynamically
@@ -68,7 +68,7 @@ class DetailClinic extends Component {
     render(){ 
         let {arrDoctorId, dataDetailClinic} = this.state
         let {language} = this.props
-        console.log('state: ', this.state)
+        console.log('check state: ', this.state)
         return (    
             <div className='detail-specialty-container'> 
             <HomeHeader/>
