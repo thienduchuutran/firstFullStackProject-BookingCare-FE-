@@ -6,7 +6,7 @@ import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtra from '../Doctor/DoctorExtra';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
-import { getAllDetailSpecialtyById, getAllCodeService } from '../../../services/userService';
+import { getAllDetailSpecialtyById, getAllCodeService, getAllDetailClinicById } from '../../../services/userService';
 import _ from 'lodash';
 import { dateFilter } from 'react-bootstrap-table2-filter';
 import { LANGUAGES } from '../../../utils';
@@ -18,8 +18,7 @@ class DetailClinic extends Component {
         super(props)
         this.state = {
             arrDoctorId: [],    //this is to be passed into DoctorScedule component to render schedule for each doctor
-            dataDetailSpecialty: [],
-            listProvince: []
+            dataDetailClinic: []
         }
     }
 
@@ -27,16 +26,14 @@ class DetailClinic extends Component {
         if(this.props.match && this.props.match.params && this.props.match.params.id){
             let id = this.props.match.params.id            //this is getting whatever id on the URL of the page
 
-            let res = await getAllDetailSpecialtyById({
-                id: id,
-                location: 'ALL'
+            let res = await getAllDetailClinicById({
+                id: id
             })  
 
             //this is getting a list of provinces
-            let resProvince = await getAllCodeService('PROVINCE')
-            console.log('check res province: ', resProvince.data)
 
-            if(res && res.errCode === 0 && resProvince && resProvince.errCode === 0){
+
+            if(res && res.errCode === 0){
                 let data = res.data
                 let arrDoctorId = []
                 //dynamically loading doctors list
@@ -49,22 +46,9 @@ class DetailClinic extends Component {
                     }
                 }
 
-                let dataProvince = resProvince.data
-                let result = []
-                if(dataProvince && dataProvince.length > 0){
-                    dataProvince.unshift({
-                        createdAt: null,
-                        keyMap: "ALL",
-                        type: "PROVINCE",
-                        valueEn: "National",
-                        valueVi: "Toàn quốc"
-                    })
-                }
-
                 this.setState({
-                    dataDetailSpecialty: res.data,
+                    dataDetailClinic: res.data,
                     arrDoctorId: arrDoctorId,
-                    listProvince: dataProvince ? dataProvince : []
                 })
             }
         }
@@ -81,42 +65,8 @@ class DetailClinic extends Component {
          
     }
 
-    //this is to determine what province id the user just clicks on
-    handleOnChangeSelect = async (event) =>  {
-        //this is to get the prop (id) on URL which is the id of the specialty
-        if(this.props.match && this.props.match.params && this.props.match.params.id){
-            let id = this.props.match.params.id
-            let location = event.target.value   //this is province Id
-
-            let res = await getAllDetailSpecialtyById({
-                id: id,
-                location: location
-            })  
-
-            if(res && res.errCode === 0){
-                let data = res.data
-                let arrDoctorId = []
-                //dynamically getting doctors list
-                if(data && !_.isEmpty(res.data)){
-                    let arr = data.doctorSpecialty
-                    if(arr && arr.length > 0){
-                        arr.map(item => {
-                            arrDoctorId.push(item.doctorId) //pushing each doctorId into arrDoctorId since from arrDoctorId we dynamically
-                        })                                   // render doctors based on specialty using doctor id
-                    }
-                }
-                
-                //updating the state arrDoctorId based on location
-                this.setState({
-                    dataDetailSpecialty: res.data,
-                    arrDoctorId: arrDoctorId,
-                })
-            }
-    }
-}
-
     render(){ 
-        let {arrDoctorId, dataDetailSpecialty, listProvince} = this.state
+        let {arrDoctorId, dataDetailClinic} = this.state
         let {language} = this.props
         console.log('state: ', this.state)
         return (    
@@ -124,27 +74,20 @@ class DetailClinic extends Component {
             <HomeHeader/>
                 <div className='detail-specialty-body'>
                     <div className='description-specialty'>
-                        {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty)
+                        {dataDetailClinic && !_.isEmpty(dataDetailClinic)
                         &&
-                        <div dangerouslySetInnerHTML={{__html: dataDetailSpecialty.descriptionHTML}}>
+                        <>
+                        <div>
+                            {dataDetailClinic.name}
+                        </div>
+                        <div dangerouslySetInnerHTML={{__html: dataDetailClinic.descriptionHTML}}>
                                 
                         </div>
+                        </>
                         }
                         
                     </div>
 
-                    <div className='search-sp-doctor'>
-                        <select onChange={(event)=> this.handleOnChangeSelect(event)}>
-                            {listProvince && listProvince.length > 0
-                            && listProvince.map((item, index)=>{
-                                return (
-                                    <option key={index} value={item.keyMap}>
-                                        {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
-                                    </option>
-                                )
-                            })}
-                        </select>
-                    </div>
                     {arrDoctorId && arrDoctorId.length > 0 &&
                     arrDoctorId.map((item, index)=> {
                         return(
