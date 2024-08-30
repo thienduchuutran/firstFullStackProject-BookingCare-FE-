@@ -65,6 +65,7 @@ class ManageDoctor extends Component {
     }
 
     buildDataInputSelect = (inputData, type) => {
+        //these are to build the lists of inputs for each field in the Manage Doctor section
         let result = []
         let {language} = this.props
         if(inputData && inputData.length> 0){
@@ -106,6 +107,15 @@ class ManageDoctor extends Component {
                     result.push(object)
                 })                
             }
+
+            if(type==="CLINIC"){
+                inputData.map((item, index) => {
+                    let object = {}
+                    object.label = item.name
+                    object.value = item.id
+                    result.push(object)
+                })                
+            }
             
         }
         return result
@@ -119,32 +129,38 @@ class ManageDoctor extends Component {
             })
         }
 
+        //these are to update the language of those list options whenever changes
         if(prevProps.allRequiredDoctorInfo !== this.props.allRequiredDoctorInfo){
-            let {resPrice, resPayment, resProvince, resSpecialty } = this.props.allRequiredDoctorInfo
+            let {resPrice, resPayment, resProvince, resSpecialty, resClinic } = this.props.allRequiredDoctorInfo
             let dataSelectPrice = this.buildDataInputSelect(resPrice, 'PRICE')
             let dataSelectPayment = this.buildDataInputSelect(resPayment, 'PAYMENT')
             let dataSelectProvince = this.buildDataInputSelect(resProvince, 'PROVINCE')
             let dataSelectSpecialty = this.buildDataInputSelect(resSpecialty, 'SPECIALTY')
+            let dataSelectClinic = this.buildDataInputSelect(resClinic, 'CLINIC')
 
             this.setState({
                 listPrice: dataSelectPrice,
                 listPayment: dataSelectPayment,
                 listProvince: dataSelectProvince,   
-                listSpecialty: dataSelectSpecialty             
+                listSpecialty: dataSelectSpecialty,
+                listClinic: dataSelectClinic             
             })
         }
 
         if(prevProps.language !== this.props.language){                        //need this so the options in the drop down switch from eng format to viet format whenever change language
             let dataSelect = this.buildDataInputSelect(this.props.allDoctors, 'USERS')
-            let {resPrice, resPayment, resProvince } = this.props.allRequiredDoctorInfo
+            let {resPrice, resPayment, resProvince, resClinic } = this.props.allRequiredDoctorInfo
             let dataSelectPrice = this.buildDataInputSelect(resPrice, 'PRICE')
             let dataSelectPayment = this.buildDataInputSelect(resPayment, 'PAYMENT')
             let dataSelectProvince = this.buildDataInputSelect(resProvince, 'PROVINCE')
+            let dataSelectClinic = this.buildDataInputSelect(resClinic, 'CLINIC')
+
             this.setState({
                 listDoctors: dataSelect,
                 listPrice: dataSelectPrice,
                 listPayment: dataSelectPayment,
-                listProvince: dataSelectProvince,                
+                listProvince: dataSelectProvince,  
+                listClinic: dataSelectClinic             
             })
         }
     }
@@ -182,7 +198,7 @@ class ManageDoctor extends Component {
             selectedDoctor: selectedOption
         });
 
-        let {listPayment, listPrice, listProvince, listSpecialty} = this.state
+        let {listPayment, listPrice, listProvince, listSpecialty, listClinic} = this.state
 
         let res = await getDetailInfoDoctor(selectedOption.value)
         
@@ -193,8 +209,9 @@ class ManageDoctor extends Component {
             //getting doctor info to show on UI
             let addressClinic = '', nameClinic = '', note = '',
             paymentId = '', priceId = '', provinceId = '',
-            selectedSpecialty = '', specialtyId = '',
-            selectedPayment = '', selectedPrice = '', selectedProvince = '' //initializing
+            selectedSpecialty = '', specialtyId = '', clinicId = '',
+            selectedPayment = '', selectedPrice = '', selectedProvince = '',
+            selectedClinic = '' //initializing
 
 
             if(res.data.Doctor_Info){
@@ -206,6 +223,7 @@ class ManageDoctor extends Component {
                 priceId = res.data.Doctor_Info.priceId
                 provinceId = res.data.Doctor_Info.provinceId        //assigning values
                 specialtyId = res.data.Doctor_Info.specialtyId
+                clinicId = res.data.Doctor_Info.clinicId
 
                 //listPayment here has all the options for payment types
                 selectedPayment = listPayment.find(item=> {
@@ -223,6 +241,9 @@ class ManageDoctor extends Component {
                 selectedSpecialty = listSpecialty.find(item => {
                     return item && item.value === specialtyId
                 })
+                selectedClinic = listClinic.find(item => {
+                    return item && item.value === clinicId
+                })
 
             }
             //asigning values right after retrieving from getDetailInfoDoctor
@@ -237,8 +258,9 @@ class ManageDoctor extends Component {
                 selectedPayment: selectedPayment,
                 selectedPrice: selectedPrice,
                 selectedProvince: selectedProvince,
-                selectedSpecialty: selectedSpecialty
-            })
+                selectedSpecialty: selectedSpecialty,
+                selectedClinic: selectedClinic                  //this here is to whenever we change a selected doctor, the according clinic fiel will also change
+            })                                                  //in ManageDoctor section (in the clinic field)
         }
 
         //this else means the doctor selected ain't have Markdown data yet, that's when we reset the fields back to blank
@@ -254,7 +276,8 @@ class ManageDoctor extends Component {
                 selectedPayment: '',
                 selectedPrice: '',
                 selectedProvince: '',
-                selectedSpecialty: ''
+                selectedSpecialty: '',
+                selectedClinic: ''
             })
         }
     };
