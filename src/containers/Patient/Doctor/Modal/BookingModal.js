@@ -101,9 +101,8 @@ class BookingModal extends Component {
 
     handleConfirmBooking = async() => {
         //validate input
-
+        // 
         let date = new Date(this.state.birthday).getTime()  //this getTime() is converting the timestamp from javascript type to unix string
-        
         let timeString = this.buildTimeBooking(this.props.dataTime)
         let doctorName = this.buildDoctorName(this.props.dataTime)
         let res = await postPatientBookAppointment({

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import './ManagePatient.scss'
 import DatePicker from '../../../components/Input/DatePicker';
+import { getAllPatientForDoctor } from '../../../services/userService';
 
 
 
@@ -34,7 +35,7 @@ class ManagePatient extends Component {
     }
 
     render(){ 
-
+        console.log('this.props: ', this.props)
         return (    
             <> 
             <div className='manage-patient-container'>
@@ -55,6 +56,7 @@ class ManagePatient extends Component {
 
                     <div className='col-12 table-manage-patient'>
                         <table style={{width:'100%'}} >
+                            <tbody>
                             <tr>
                                 <th>Company</th>
                                 <th>Contact</th>
@@ -90,6 +92,7 @@ class ManagePatient extends Component {
                                 <td>Giovanni Rovelli</td>
                                 <td>Italy</td>
                             </tr>
+                            </tbody>
                         </table>                        
                     </div>
                 </div>
@@ -101,7 +104,8 @@ class ManagePatient extends Component {
 
 const mapStateToProps = state => {
     return {
-        language: state.app.language
+        language: state.app.language,
+        user: state.user.userInfo       //this is to get all the data of the user that is using the account, so that we can get id of this user
     };
 };
 
