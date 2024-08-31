@@ -6,6 +6,7 @@ import DatePicker from '../../../components/Input/DatePicker';
 import { getAllPatientForDoctor } from '../../../services/userService';
 import moment from 'moment';
 import { LANGUAGES } from '../../../utils';
+import RemedyModal from './RemedyModal';
 
 
 
@@ -17,7 +18,9 @@ class ManagePatient extends Component {
             //don't want it to also get the exact hour minute and second, just the date so we can't use
             //new Date()
             currentDate:  moment(new Date()).startOf('day').valueOf(), 
-            dataPatient: []  
+            dataPatient: [],        //this is the list of patient to show on table
+            isOpenRemedyModal: false,
+            dataModal: {}               //to get individual patient data
         }                        
     }
 
@@ -70,13 +73,16 @@ class ManagePatient extends Component {
             email: item.patientData.email
         }
 
-        console.log('check user: ', data)
+        this.setState({
+            isOpenRemedyModal: true,
+            dataModal: data
+        })
     }
 
 
 
     render(){ 
-        let {dataPatient} = this.state
+        let {dataPatient, isOpenRemedyModal, dataModal} = this.state
         let {language} = this.props
         return (    
             <> 
@@ -143,6 +149,12 @@ class ManagePatient extends Component {
                     </div>
                 </div>
             </div>
+
+            <RemedyModal
+                isOpenModal={isOpenRemedyModal}
+                dataModal={dataModal}
+                closeRemedyModal={closeRemedyModal}
+            />
             </>   
         );
     }
