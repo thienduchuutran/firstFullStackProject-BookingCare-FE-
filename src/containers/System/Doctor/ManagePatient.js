@@ -7,6 +7,7 @@ import { getAllPatientForDoctor, postSendRemedy } from '../../../services/userSe
 import moment from 'moment';
 import { LANGUAGES } from '../../../utils';
 import RemedyModal from './RemedyModal';
+import { toast } from 'react-toastify';
 
 
 
@@ -25,14 +26,16 @@ class ManagePatient extends Component {
     }
 
     async componentDidMount(){
-        let {user} = this.props
-        let {currentDate} = this.state
-        let formattedDate = new Date(currentDate).getTime()
-        this.getDataPatient(user, formattedDate)   
+
+        this.getDataPatient()   
     }
 
     //getting list of patient based on a selected date and selected doctor
-    getDataPatient = async(user, formattedDate) => {
+    getDataPatient = async() => {
+        let {user} = this.props
+        let {currentDate} = this.state
+        let formattedDate = new Date(currentDate).getTime()
+        
         let res = await getAllPatientForDoctor({
             doctorId: user.id,
             date: formattedDate
@@ -58,11 +61,8 @@ class ManagePatient extends Component {
     handleOnchangeDatePicker = (date) => {
         this.setState({
             currentDate: date[0]
-        }, ()=>{
-            let {user} = this.props
-            let {currentDate} = this.state
-            let formattedDate = new Date(currentDate).getTime()
-            this.getDataPatient(user, formattedDate)             
+        }, async ()=>{
+            await this.getDataPatient()             
         })          //making the page re-render the patient list every time we onChange the date
     }
 
@@ -98,7 +98,13 @@ class ManagePatient extends Component {
             timeType: dataModal.timeType
         })
 
-        console.log('checl res, ', res)
+        if(res && res.errCode === 0){
+            toast.success('Sent remedy successfully')
+            await this.getDataPatient()                //this is to fetch the table of patient list   
+            this.closeRemedyModal()                    // immediately
+        }else{
+            toast.error('Something wrong...')
+        }
     }
 
     render(){ 
@@ -159,9 +165,9 @@ class ManagePatient extends Component {
                                 )
                             })
                         :
-                            <tbody>
-                                no data
-                            </tbody>
+                            <tr>
+                                <td colSpan='6' style={{textAlign: 'center'}}>no data</td>
+                            </tr>
                         }
 
                             </tbody>
