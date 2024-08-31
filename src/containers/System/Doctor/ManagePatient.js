@@ -79,7 +79,16 @@ class ManagePatient extends Component {
         })
     }
 
+    closeRemedyModal = () => {
+        this.setState({
+            isOpenRemedyModal: false,
+            dataModal: {}
+        })        
+    }
 
+    sendRemedy = () =>{
+        alert('click me')
+    }
 
     render(){ 
         let {dataPatient, isOpenRemedyModal, dataModal} = this.state
@@ -153,7 +162,8 @@ class ManagePatient extends Component {
             <RemedyModal
                 isOpenModal={isOpenRemedyModal}
                 dataModal={dataModal}
-                closeRemedyModal={closeRemedyModal}
+                closeRemedyModal={this.closeRemedyModal}
+                sendRemedy={this.sendRemedy}
             />
             </>   
         );

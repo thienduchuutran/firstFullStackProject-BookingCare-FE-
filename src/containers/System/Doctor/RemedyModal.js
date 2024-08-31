@@ -20,7 +20,7 @@ class RemedyModal extends Component {
     }
 
     render(){ 
-        let {isOpenModal, closeRemedyModal, dataModal} = this.props
+        let {isOpenModal, closeRemedyModal, dataModal, sendRemedy} = this.props
 
         return (    
             <Modal 
@@ -54,7 +54,7 @@ class RemedyModal extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                <Button color="primary" onClick={closeRemedyModal}>
+                <Button color="primary" onClick={sendRemedy}>
                     Send
                 </Button>{' '}
                 <Button color="secondary" onClick={closeRemedyModal}>
