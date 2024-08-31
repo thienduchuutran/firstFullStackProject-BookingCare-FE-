@@ -52,7 +52,7 @@ class RemedyModal extends Component {
     }
 
     handleSendRemedy = ()=> {
-        console.log('check state: ', this.state)
+        this.props.sendRemedy(this.state)       //passing states, email and imgBase64, of this child component back to its parent component, ManagePatient
     }
 
     render(){ 

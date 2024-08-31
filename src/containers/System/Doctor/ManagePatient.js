@@ -86,8 +86,8 @@ class ManagePatient extends Component {
         })        
     }
 
-    sendRemedy = () =>{
-        alert('click me')
+    sendRemedy = (dataFromModal) =>{
+        console.log('parent check modal: ', dataFromModal)
     }
 
     render(){ 
