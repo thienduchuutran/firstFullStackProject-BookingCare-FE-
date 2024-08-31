@@ -5,18 +5,54 @@ import './RemedyModal.scss'
 import {  Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
 import moment, { lang } from 'moment';
-
+import { CommonUtils } from '../../../utils';
 
 class RemedyModal extends Component {
     constructor(props){
         super(props)
         this.state = {
-
+            email: '',
+            imgBase64: '',  //these 2 states are for this child RemedyModal component to manage, placing less burden on its parent component ManagePatient
         }
     }
 
     async componentDidMount(){
+        if(this.props.dataModal){
 
+        }this.setState({
+            email: this.props.dataModal.email
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot){
+        if(prevProps.dataModal !== this.props.dataModal){
+            this.setState({
+                email: this.props.dataModal.email       //if a user changes their email, the email showing up in the modal is also changed
+            })
+        }
+
+    }     
+    
+    handleOnchangeEmail = (event) => {
+        this.setState({
+            email: event.target.value       //this is so that the doctor can easily directly change patient email in the modal
+        })
+    }
+
+    handleOnchangeImage = async (event)=>{      //this is to directly change uploaded file
+        let data = event.target.files
+        let file = data[0]
+        if(file){
+            let base64 = await CommonUtils.getBase64(file)      //encoding the image into base64
+            this.setState({
+                imgBase64: base64
+            })
+        }
+         
+    }
+
+    handleSendRemedy = ()=> {
+        console.log('check state: ', this.state)
     }
 
     render(){ 
@@ -44,17 +80,20 @@ class RemedyModal extends Component {
                     <div className='row'>
                         <div className='col-6 form-group'>
                                 <label>Email benh nhan</label>
-                                <input className='form-control' type='email' value={dataModal.email}/>
+                                <input className='form-control' type='email' value={this.state.email}
+                                        onChange={(event)=>this.handleOnchangeEmail(event)}        
+                                />
                         </div>
 
                         <div className='col-6 form-group'>
                                 <label>Chon file don thuoc</label>
-                                <input className='form-control-file' type='file'/>
+                                <input className='form-control-file' type='file'
+                                onChange={(event)=>this.handleOnchangeImage(event)}/>
                         </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                <Button color="primary" onClick={sendRemedy}>
+                <Button color="primary" onClick={()=>this.handleSendRemedy()}>     {/*When we have ()=>, the function ain't get mounted until we click, otherwise, the function gets mounted right when component be rerendered */}
                     Send
                 </Button>{' '}
                 <Button color="secondary" onClick={closeRemedyModal}>
