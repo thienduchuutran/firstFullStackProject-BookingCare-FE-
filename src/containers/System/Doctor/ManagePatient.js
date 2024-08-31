@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { FormattedMessage } from 'react-intl';
+import { FormattedDate, FormattedMessage } from 'react-intl';
 import './ManagePatient.scss'
 import DatePicker from '../../../components/Input/DatePicker';
 import { getAllPatientForDoctor } from '../../../services/userService';
@@ -15,7 +15,8 @@ class ManagePatient extends Component {
             //assign today's date for currentDate so that it shows up on datePicker as today, and we 
             //don't want it to also get the exact hour minute and second, just the date so we can't use
             //new Date()
-            currentDate:  moment(new Date()).startOf('day').valueOf(),    
+            currentDate:  moment(new Date()).startOf('day').valueOf(), 
+            dataPatient: []  
         }                        
     }
 
@@ -23,13 +24,22 @@ class ManagePatient extends Component {
         let {user} = this.props
         let {currentDate} = this.state
         let formattedDate = new Date(currentDate).getTime()
+        this.getDataPatient(user, formattedDate)   
+    }
+
+    //getting list of patient based on a selected date and selected doctor
+    getDataPatient = async(user, formattedDate) => {
         let res = await getAllPatientForDoctor({
             doctorId: user.id,
             date: formattedDate
 
         })
 
-        console.log('check res: ', res)
+        if(res && res.errCode === 0){
+            this.setState({
+                dataPatient: res.data
+            })
+        }
     }
 
 
@@ -44,11 +54,25 @@ class ManagePatient extends Component {
     handleOnchangeDatePicker = (date) => {
         this.setState({
             currentDate: date[0]
-        })
+        }, ()=>{
+            let {user} = this.props
+            let {currentDate} = this.state
+            let formattedDate = new Date(currentDate).getTime()
+            this.getDataPatient(user, formattedDate)             
+        })          //making the page re-render the patient list every time we onChange the date
+    }
+
+    handleBtnConfirm = ()=> {
+
+    }
+
+    handleBtnRemedy = () => {
+        
     }
 
     render(){ 
-        console.log('this.props: ', this.props)
+        console.log('this.state: ', this.state)
+        let {dataPatient} = this.state
         return (    
             <> 
             <div className='manage-patient-container'>
@@ -71,40 +95,44 @@ class ManagePatient extends Component {
                         <table style={{width:'100%'}} >
                             <tbody>
                             <tr>
-                                <th>Company</th>
-                                <th>Contact</th>
-                                <th>Country</th>
+                                <th>STT</th>
+                                <th>Thoi Gian</th>
+                                <th>Ho va Ten</th>
+                                <th>Dia chi</th>
+                                <th>Gioi tinh</th>
+                                <th>Action</th>
                             </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Centro comercial Moctezuma</td>
-                                <td>Francisco Chang</td>
-                                <td>Mexico</td>
-                            </tr>
-                            <tr>
-                                <td>Ernst Handel</td>
-                                <td>Roland Mendel</td>
-                                <td>Austria</td>
-                            </tr>
-                            <tr>
-                                <td>Island Trading</td>
-                                <td>Helen Bennett</td>
-                                <td>UK</td>
-                            </tr>
-                            <tr>
-                                <td>Laughing Bacchus Winecellars</td>
-                                <td>Yoshi Tannamuri</td>
-                                <td>Canada</td>
-                            </tr>
-                            <tr>
-                                <td>Magazzini Alimentari Riuniti</td>
-                                <td>Giovanni Rovelli</td>
-                                <td>Italy</td>
-                            </tr>
+                            {dataPatient && dataPatient.length > 0 ?
+                            dataPatient.map((item, index)=>{
+                                return(
+                                    <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.timeTypeDataPatient.valueVi}</td>
+                                    <td>{item.patientData.firstName}</td>
+                                    <td>{item.patientData.address}</td>
+                                    <td>{item.patientData.genderData.valueVi}</td>
+                                    <td>
+                                        <button className='mp-btn-confirm'
+                                                onClick={() => this.handleBtnConfirm()}        
+                                        >
+                                            Xac nhan
+                                        </button>
+
+                                        <button className='mp-btn-remedy'
+                                                onClick={() => this.handleBtnRemedy()} 
+                                        >
+                                            Gui hoa don
+                                        </button>
+                                    </td>
+                                </tr>                                    
+                                )
+                            })
+                        :
+                            <tbody>
+                                no data
+                            </tbody>
+                        }
+
                             </tbody>
                         </table>                        
                     </div>
