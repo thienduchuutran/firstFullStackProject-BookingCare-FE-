@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { FormattedDate, FormattedMessage } from 'react-intl';
 import './ManagePatient.scss'
 import DatePicker from '../../../components/Input/DatePicker';
-import { getAllPatientForDoctor } from '../../../services/userService';
+import { getAllPatientForDoctor, postSendRemedy } from '../../../services/userService';
 import moment from 'moment';
 import { LANGUAGES } from '../../../utils';
 import RemedyModal from './RemedyModal';
@@ -67,10 +67,12 @@ class ManagePatient extends Component {
     }
 
     handleBtnConfirm = (item)=> {
+        console.log('check item: ', item)
         let data = {
             doctorId: item.doctorId,
             patientId: item.patientId,
-            email: item.patientData.email
+            email: item.patientData.email,
+            timeType: item.timeType
         }
 
         this.setState({
@@ -86,8 +88,17 @@ class ManagePatient extends Component {
         })        
     }
 
-    sendRemedy = (dataFromModal) =>{
-        console.log('parent check modal: ', dataFromModal)
+    sendRemedy = async (dataChild) =>{
+        let {dataModal} = this.state
+        let res = await postSendRemedy({
+            email: dataChild.email,
+            imgBase64: dataChild.imgBase64,                //passing imgBase64 and email states
+            doctorId: dataModal.doctorId,
+            patientId: dataModal.patientId,
+            timeType: dataModal.timeType
+        })
+
+        console.log('checl res, ', res)
     }
 
     render(){ 
