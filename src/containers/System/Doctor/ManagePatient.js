@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import './ManagePatient.scss'
 import DatePicker from '../../../components/Input/DatePicker';
 import { getAllPatientForDoctor } from '../../../services/userService';
+import moment from 'moment';
 
 
 
@@ -11,12 +12,24 @@ class ManagePatient extends Component {
     constructor(props){
         super(props)
         this.state = {
-            currentDate: new Date(),    //assign today's date for currentDate so that it shows up on datePicker as today 
-        }
+            //assign today's date for currentDate so that it shows up on datePicker as today, and we 
+            //don't want it to also get the exact hour minute and second, just the date so we can't use
+            //new Date()
+            currentDate:  moment(new Date()).startOf('day').valueOf(),    
+        }                        
     }
 
     async componentDidMount(){
+        let {user} = this.props
+        let {currentDate} = this.state
+        let formattedDate = new Date(currentDate).getTime()
+        let res = await getAllPatientForDoctor({
+            doctorId: user.id,
+            date: formattedDate
 
+        })
+
+        console.log('check res: ', res)
     }
 
 
