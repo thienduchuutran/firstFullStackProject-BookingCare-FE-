@@ -18,10 +18,10 @@ class RemedyModal extends Component {
 
     async componentDidMount(){
         if(this.props.dataModal){
-
-        }this.setState({
-            email: this.props.dataModal.email
-        })
+            this.setState({
+                email: this.props.dataModal.email
+            })
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){

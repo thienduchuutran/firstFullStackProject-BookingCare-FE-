@@ -4,10 +4,11 @@ import { FormattedDate, FormattedMessage } from 'react-intl';
 import './ManagePatient.scss'
 import DatePicker from '../../../components/Input/DatePicker';
 import { getAllPatientForDoctor, postSendRemedy } from '../../../services/userService';
-import moment from 'moment';
+import moment, { lang } from 'moment';
 import { LANGUAGES } from '../../../utils';
 import RemedyModal from './RemedyModal';
 import { toast } from 'react-toastify';
+import LoadingOverlay from 'react-loading-overlay';
 
 
 
@@ -21,7 +22,8 @@ class ManagePatient extends Component {
             currentDate:  moment(new Date()).startOf('day').valueOf(), 
             dataPatient: [],        //this is the list of patient to show on table
             isOpenRemedyModal: false,
-            dataModal: {}               //to get individual patient data
+            dataModal: {},               //to get individual patient data
+            isShowLoading: false
         }                        
     }
 
@@ -67,12 +69,12 @@ class ManagePatient extends Component {
     }
 
     handleBtnConfirm = (item)=> {
-        console.log('check item: ', item)
         let data = {
             doctorId: item.doctorId,
             patientId: item.patientId,
             email: item.patientData.email,
-            timeType: item.timeType
+            timeType: item.timeType,
+            patientName: item.patientData.firstName
         }
 
         this.setState({
@@ -90,19 +92,26 @@ class ManagePatient extends Component {
 
     sendRemedy = async (dataChild) =>{
         let {dataModal} = this.state
+        this.setState({
+            isShowLoading: true
+        })
         let res = await postSendRemedy({
             email: dataChild.email,
             imgBase64: dataChild.imgBase64,                //passing imgBase64 and email states
             doctorId: dataModal.doctorId,
             patientId: dataModal.patientId,
-            timeType: dataModal.timeType
+            timeType: dataModal.timeType,
+            language: this.props.language,
+            patientName: dataModal.patientName
         })
 
         if(res && res.errCode === 0){
+            this.setState({isShowLoading: false})
             toast.success('Sent remedy successfully')
             await this.getDataPatient()                //this is to fetch the table of patient list   
             this.closeRemedyModal()                    // immediately
         }else{
+            this.setState({isShowLoading: false})
             toast.error('Something wrong...')
         }
     }
@@ -112,6 +121,11 @@ class ManagePatient extends Component {
         let {language} = this.props
         return (    
             <> 
+            <LoadingOverlay
+                active={this.state.isShowLoading}
+                spinner
+                text='Loading your content...'
+            >
             <div className='manage-patient-container'>
                 <div className='m-p-title'>
                     Quan ly benh nhan kham benh
@@ -182,6 +196,9 @@ class ManagePatient extends Component {
                 closeRemedyModal={this.closeRemedyModal}
                 sendRemedy={this.sendRemedy}
             />
+
+
+            </LoadingOverlay>
             </>   
         );
     }
